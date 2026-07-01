@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 8,
     },
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
     profileImage: {
       type: String,
       default: "",
@@ -61,4 +65,5 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;
