@@ -6,6 +6,7 @@ import Illustrations from "./pages/illustrations";
 import Collections from "./pages/Collections";
 import DownloadHistory from "./pages/DownloadHistory";
 import Bookmarks from "./pages/Bookmarks"
+import Login from "./pages/Login";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/download-history" element={<DownloadHistory />} />
           <Route path="/bookmarks" element={<Bookmarks />} />
         </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );

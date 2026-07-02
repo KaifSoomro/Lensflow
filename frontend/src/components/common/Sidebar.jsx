@@ -15,7 +15,7 @@ const Sidebar = () => {
           title="Home"
           to="/"
           className={({ isActive }) =>
-            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2"}`
+            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2 transition-all ease duration-200"}`
           }
         >
           <House />
@@ -24,7 +24,7 @@ const Sidebar = () => {
           title="Illustrations"
           to="/illustrations"
           className={({ isActive }) =>
-            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2"}`
+            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2 transition-all ease duration-200"}`
           }
         >
           <PenTool />
@@ -36,7 +36,7 @@ const Sidebar = () => {
           title="Collections"
           to="/collections"
           className={({ isActive }) =>
-            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2"}`
+            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2 transition-all ease duration-200"}`
           }
         >
           <Folders />
@@ -45,7 +45,7 @@ const Sidebar = () => {
           title="Download History"
           to="/download-history"
           className={({ isActive }) =>
-            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2"}`
+            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2 transition-all ease duration-200"}`
           }
         >
           <Download />
@@ -57,7 +57,7 @@ const Sidebar = () => {
           title="Bookmarks"
           to="/bookmarks"
           className={({ isActive }) =>
-            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2"}`
+            `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2 transition-all ease duration-200"}`
           }
         >
           <Bookmark />
