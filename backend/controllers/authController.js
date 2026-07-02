@@ -44,14 +44,14 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await User.create({
+    const user = await User.create({
       fullName,
       userName,
       email,
       password: hashedPassword,
     });
 
-    const token = jwt.sign({ userName, email }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
       expiresIn: "15min",
     });
 
@@ -134,6 +134,48 @@ export const signup = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal server error in signup controller.",
+      error: error.message,
+    });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    const user = await User.findById({ _id: decoded.id });
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "Verification link is invalid or expired.",
+      });
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      isVerified: user.isVerified,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error in verifyEmail controller.",
+      error: error.message,
+    });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error in login controller.",
       error: error.message,
     });
   }
