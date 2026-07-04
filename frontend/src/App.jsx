@@ -7,6 +7,7 @@ import Collections from "./pages/Collections";
 import DownloadHistory from "./pages/DownloadHistory";
 import Bookmarks from "./pages/Bookmarks"
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/bookmarks" element={<Bookmarks />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );
