@@ -12,7 +12,7 @@ const Topbar = () => {
           className="w-full rounded-full bg-neutral-200 h-10 ps-10 focus:bg-neutral-50 border border-neutral-50 focus:border-neutral-300 outline-none transition-all ease duration-200"
         />
 
-        <Link to="/login" className="px-4 py-1 border-2 border-neutral-300 rounded-lg flex items-center gap-3 text-neutral-500 cursor-pointer hover:text-neutral-700 hover:border-neutral-500 transition-all ease duration-200">
+        <Link to="/login" className="px-4 py-1 border-2 border-[#3B82F6] rounded-lg flex items-center gap-3 cursor-pointer text-neutral-700 bg-[#3B82F6]/10 hover:bg-[#3B82F6]/20 transition-all ease duration-200">
           <LogIn /> Login
         </Link>
       </div>
