@@ -8,6 +8,7 @@ import DownloadHistory from "./pages/DownloadHistory";
 import Bookmarks from "./pages/Bookmarks"
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import VerifyPage from "./pages/VerifyPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verify/:token" element={<VerifyPage />} />
       </Routes>
     </>
   );
