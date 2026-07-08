@@ -45,7 +45,6 @@ const Login = () => {
           throw new Error(data.message || "Something went wrong.");
         }
 
-        console.log(data);
         localStorage.setItem("token", data?.token);
         dispatch(setUser(data?.user));
 
