@@ -32,7 +32,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify/:token" element={<VerifyPage />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route element={<ProtectRoutes />}>
+          <Route path="/settings" element={<Settings />} />
+        </Route>
       </Routes>
     </>
   );
