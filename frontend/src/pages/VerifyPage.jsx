@@ -1,20 +1,55 @@
+import { useQuery } from "@tanstack/react-query";
 import { CheckCircle2, XCircle } from "lucide-react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 
 const VerifyPage = () => {
   const navigate = useNavigate();
 
-  const isVerified = true;
+  const { token } = useParams();
+  console.log("token: ", token);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["verifyEmail"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/verify/${token}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json"
+            }
+        })
+
+        const data = await res.json();
+
+        if(!res.ok){
+          throw new Error(data.message || "Something went wrong.")
+        }
+
+        console.log("data: ", data);
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
+  });
+
+  const isVerified = data?.success;
+
+  useEffect(() => {
+    if(data?.message === "Email already verified."){
+      toast.success(data?.message);
+    }
+  }, [data])
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-5">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-10 text-center">
         <div
           className={`mx-auto flex h-28 w-28 items-center justify-center rounded-full ${
-            isVerified
-              ? "bg-blue-50"
-              : "bg-red-50"
+            isVerified ? "bg-blue-50" : "bg-red-50"
           }`}
         >
           {isVerified ? (
@@ -25,9 +60,7 @@ const VerifyPage = () => {
         </div>
 
         <h1 className="mt-8 text-3xl font-bold text-[#111827]">
-          {isVerified
-            ? "Email Verified!"
-            : "Verification Failed"}
+          {isVerified ? "Email Verified!" : "Verification Failed"}
         </h1>
 
         <p className="mt-4 text-gray-600 leading-7">

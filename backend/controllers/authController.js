@@ -153,6 +153,13 @@ export const verifyEmail = async (req, res) => {
       });
     }
 
+    if (user.isVerified === true) {
+      return res.status(200).json({
+        success: true,
+        message: "Email already verified.",
+      });
+    }
+
     user.isVerified = true;
     await user.save();
 
@@ -198,12 +205,14 @@ export const login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
-        message: "Invalid email or password."
+        message: "Invalid email or password.",
       });
     }
 
     // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "7d",
+    });
 
     return res.status(200).json({
       success: true,
@@ -213,8 +222,9 @@ export const login = async (req, res) => {
         _id: user._id,
         fullName: user.fullName,
         userName: user.userName,
-        email: user.email
-      }
+        email: user.email,
+        profileImage: user.profileImage
+      },
     });
   } catch (error) {
     return res.status(500).json({

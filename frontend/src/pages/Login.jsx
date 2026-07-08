@@ -43,6 +43,7 @@ const Login = () => {
         }
 
         console.log(data);
+        localStorage.setItem("token", data?.token);
 
         return data;
       } catch (error) {
