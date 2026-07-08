@@ -5,8 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/userSlice.js";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -44,6 +47,7 @@ const Login = () => {
 
         console.log(data);
         localStorage.setItem("token", data?.token);
+        dispatch(setUser(data?.user));
 
         return data;
       } catch (error) {
