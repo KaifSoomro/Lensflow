@@ -1,4 +1,5 @@
 import userReducer from "../features/userSlice.js";
+import dynamicRouteReducer from "../features/dynamicRouteSlice.js"
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistReducer,
@@ -21,6 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
+  dynamicRoute: dynamicRouteReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
