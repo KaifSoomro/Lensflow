@@ -1,10 +1,49 @@
 import { LogIn } from "lucide-react";
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Topbar = () => {
   const { user } = useSelector((state) => state.user);
+
+  const routesLink = [
+    {
+      name: "featured",
+      link: "/",
+    },
+    {
+      name: "nostalgia",
+      link: "/t/nostalgia",
+    },
+    {
+      name: "summer",
+      link: "/t/summer",
+    },
+    {
+      name: "wallpapers",
+      link: "/t/wallpapers",
+    },
+    {
+      name: "3d renders",
+      link: "/t/3d-renders",
+    },
+    {
+      name: "nature",
+      link: "/t/nature",
+    },
+    {
+      name: "texture",
+      link: "/t/texture",
+    },
+    {
+      name: "film",
+      link: "/t/film",
+    },
+    {
+      name: "street photography",
+      link: "/t/street-photography",
+    },
+  ];
   return (
     <div className="w-full h-29 border-b border-neutral-400/40 px-6">
       <div className="flex items-center gap-6 mt-3">
@@ -26,6 +65,20 @@ const Topbar = () => {
             <LogIn /> Login
           </Link>
         )}
+      </div>
+
+      {/* Sub navigation */}
+      <div className="w-full flex items-center mt-2.5">
+        {routesLink.map((val, index) => (
+          <NavLink
+            to={val.link}
+            className={({ isActive }) =>
+              `capitalize mx-2 font-semibold text-sm ${isActive ? "py-4 px-2 border-b-2 border-neutral-900" : "text-neutral-500 hover:text-neutral-900  py-4 px-2 transition-all ease duration-200"}`
+            }
+          >
+            { val.name }
+          </NavLink>
+        ))}
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
 import ProtectRoutes from "./components/common/ProtectRoutes";
+import CategoryPage from "./pages/CategoryPage";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/illustrations" element={<Illustrations />} />
+          <Route path="/t/:category" element={<CategoryPage />} />
           <Route element={<ProtectRoutes />}>
             <Route path="/collections" element={<Collections />} />
             <Route path="/download-history" element={<DownloadHistory />} />

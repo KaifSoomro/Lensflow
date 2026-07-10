@@ -5,7 +5,19 @@ import Footer from "../components/common/Footer.jsx";
 
 const Layout = () => {
   const location = useLocation();
-  const hideFooterRoutes = ["/", "/illustrations", "/collections"];
+  const hideFooterRoutes = [
+    "/",
+    "/illustrations",
+    "/collections",
+    "/t/nostalgia",
+    "/t/summer",
+    "/t/wallpapers",
+    "/t/3d-renders",
+    "/t/nature",
+    "/t/texture",
+    "/t/film",
+    "/t/street-photography",
+  ];
   const showFooter = !hideFooterRoutes.includes(location.pathname);
   return (
     <div className="flex h-screen">
