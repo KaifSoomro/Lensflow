@@ -1,6 +1,7 @@
 import { Check, Plus, Bookmark, ArrowDown } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
+import userImage from "../../assets/images/profile.webp";
 
 const ImageCard = ({ value }) => {
   return (
@@ -29,7 +30,7 @@ const ImageCard = ({ value }) => {
         <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img
-              src={value?.user?.profileImage}
+              src={value?.user?.profileImage || userImage}
               alt={value?.user?.fullName}
               className="w-10 h-10 rounded-full object-cover"
             />

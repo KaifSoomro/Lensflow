@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ImageCard from "../components/common/ImageCard.jsx";
 import Image from "../assets/images/mock_1.jpg";
 import ImageTwo from "../assets/images/mock_2.jpg";
+import ImageThree from "../assets/images/mock_3.jpg";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
@@ -30,6 +31,18 @@ const Home = () => {
         email: "basitsoomro822@gmail.com",
       },
       image_url: ImageTwo,
+      available: true
+    },
+
+    {
+      _id: 3,
+      user: {
+        fullName: "Sarim",
+        profileImage:
+          "",
+        email: "sarim@gmail.com",
+      },
+      image_url: ImageThree,
       available: true
     },
   ];
