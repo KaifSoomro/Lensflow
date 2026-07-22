@@ -14,9 +14,9 @@ const CategoryPage = () => {
         <p className="mt-2 text-neutral-600">Curated by Lensflow</p>
         <p className="mt-3">{paragraph}</p>
 
-        <button className="w-auto text-sm mt-8 px-4 py-1 border-2 border-[#3B82F6] rounded-lg cursor-pointer text-neutral-700 bg-[#3B82F6]/10 hover:bg-[#3B82F6]/20 transition-all ease duration-200">
+        <button className="w-auto mt-8 py-3 rounded-lg cursor-pointer text-white bg-neutral-900 hover:bg-neutral-900/90 transition-all ease duration-200 font-semibold">
           {" "}
-          Submit to <span className="capitalize">{category}</span>
+          Submit to <span className="capitalize font-bold">{newCategoryName}</span>
         </button>
       </div>
     </div>
