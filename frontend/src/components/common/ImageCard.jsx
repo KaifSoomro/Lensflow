@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Plus, Bookmark, ArrowDown } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -16,6 +16,16 @@ const ImageCard = ({ value }) => {
       />
 
       <div className="absolute inset-0 z-10 bg-black/20 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <div className="absolute top-0 right-0 p-4 flex items-center justify-between gap-3">
+          <button title="Bookmark" className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200">
+            <Bookmark size={21} />
+          </button>
+
+          <button title="Add to Collection" className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200">
+            <Plus size={21} />
+          </button>
+        </div>
+
         <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img
@@ -39,6 +49,9 @@ const ImageCard = ({ value }) => {
               )}
             </div>
           </div>
+          <button title="Download" className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200">
+            <ArrowDown size={21} />
+          </button>
         </div>
       </div>
     </Link>
