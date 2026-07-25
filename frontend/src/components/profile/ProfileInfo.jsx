@@ -5,7 +5,7 @@ import { Pencil, XCircle } from "lucide-react";
 
 const ProfileInfo = () => {
   return (
-    <div className="w-full h-70 p-10 flex items-center justify-center border-b border-neutral-300">
+    <div className="w-full h-70 p-10 flex items-start justify-center border-b border-neutral-300">
       <div className="flex items-start justify-center gap-15">
         <div>
           <img src={Image} alt="profile-img" className="w-40" />

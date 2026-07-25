@@ -68,8 +68,17 @@ const Topbar = () => {
     navigate(val.link);
     dispatch(setParagraph(val.paragraph));
   };
+
+  const hideSubRoutes = [
+    "/collections",
+    "/profile",
+    "/download-history",
+    "/bookmarks",
+    "/notifications",
+  ];
+  const showSubRoutes = !hideSubRoutes.includes(location.pathname);
   return (
-    <div className="w-full h-29 border-b border-neutral-400/40 px-6">
+    <div className={`w-full ${showSubRoutes ? "h-29 border-b border-neutral-400/40" : "h-auto pb-3"} px-6`}>
       <div className="flex items-center gap-6 mt-3">
         <input
           type="text"
@@ -91,16 +100,18 @@ const Topbar = () => {
         )}
       </div>
 
-      <div className="w-full flex items-center mt-2.5">
-        {routesLink.map((val, index) => (
-          <button
-            onClick={() => handleDynamicRoute(val)}
-            className={`cursor-pointer capitalize mx-2 font-semibold text-sm ${location.pathname === val.link ? "py-4 px-2 border-b-2 border-neutral-900" : "text-neutral-500 hover:text-neutral-900  py-4 px-2 transition-all ease duration-200"}`}
-          >
-            {val.name}
-          </button>
-        ))}
-      </div>
+      {showSubRoutes && (
+        <div className="w-full flex items-center mt-2.5">
+          {routesLink.map((val, index) => (
+            <button
+              onClick={() => handleDynamicRoute(val)}
+              className={`cursor-pointer capitalize mx-2 font-semibold text-sm ${location.pathname === val.link ? "py-4 px-2 border-b-2 border-neutral-900" : "text-neutral-500 hover:text-neutral-900  py-4 px-2 transition-all ease duration-200"}`}
+            >
+              {val.name}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
