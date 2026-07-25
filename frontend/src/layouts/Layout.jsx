@@ -9,6 +9,7 @@ const Layout = () => {
     "/",
     "/illustrations",
     "/collections",
+    "/profile",
     "/t/nostalgia",
     "/t/summer",
     "/t/wallpapers",
