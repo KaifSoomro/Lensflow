@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
 import ProtectRoutes from "./components/common/ProtectRoutes";
 import CategoryPage from "./pages/CategoryPage";
+import SubmitPhoto from "./pages/SubmitPhoto";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/notifications" element={<Notifications />} />
+            <Route path="/submit-photo" element={<SubmitPhoto />} />
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />
