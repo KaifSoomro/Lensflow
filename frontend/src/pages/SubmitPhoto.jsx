@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { ImagePlus, UploadCloud, X } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 const SubmitPhoto = () => {
   const [preview, setPreview] = useState(null);
   const [tagInput, setTagInput] = useState("");
+  const [imageType, setImageType] = useState("");
 
   const [data, setData] = useState({
     image: "",
     description: "",
     tags: [],
+    type: ""
   });
 
   const convertToBase64 = (file) => {
@@ -74,7 +77,7 @@ const SubmitPhoto = () => {
 
   const handleSubmit = () => {
     if (!data.image) {
-      alert("Please upload an image.");
+      toast.error("Please select an image first.");
       return;
     }
 
@@ -84,7 +87,6 @@ const SubmitPhoto = () => {
   return (
     <div className="min-h-screen bg-neutral-50 py-14 px-5">
       <div className="max-w-6xl mx-auto">
-
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-neutral-900">
             Submit a Photo
@@ -96,7 +98,6 @@ const SubmitPhoto = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-
           <div>
             <label
               htmlFor="image"
@@ -110,18 +111,11 @@ const SubmitPhoto = () => {
                 />
               ) : (
                 <div className="text-center">
-                  <ImagePlus
-                    size={60}
-                    className="mx-auto text-neutral-400"
-                  />
+                  <ImagePlus size={60} className="mx-auto text-neutral-400" />
 
-                  <h2 className="mt-5 text-xl font-semibold">
-                    Upload Photo
-                  </h2>
+                  <h2 className="mt-5 text-xl font-semibold">Upload Photo</h2>
 
-                  <p className="text-neutral-500 mt-2">
-                    JPG, PNG or WEBP
-                  </p>
+                  <p className="text-neutral-500 mt-2">JPG, PNG or WEBP</p>
                 </div>
               )}
             </label>
@@ -136,11 +130,8 @@ const SubmitPhoto = () => {
           </div>
 
           <div className="bg-white border border-neutral-200 rounded-2xl p-8">
-
             <div className="mb-8">
-              <label className="font-semibold block mb-2">
-                Description
-              </label>
+              <label className="font-semibold block mb-2">Description</label>
 
               <textarea
                 rows={6}
@@ -157,12 +148,9 @@ const SubmitPhoto = () => {
             </div>
 
             <div className="mb-8">
-              <label className="font-semibold block mb-2">
-                Tags
-              </label>
+              <label className="font-semibold block mb-2">Tags</label>
 
               <div className="min-h-13 border border-neutral-300 rounded-xl p-2 flex flex-wrap gap-2 focus-within:border-neutral-900">
-
                 {data.tags.map((tag, index) => (
                   <div
                     key={index}
@@ -170,10 +158,7 @@ const SubmitPhoto = () => {
                   >
                     <span className="text-sm">{tag}</span>
 
-                    <button
-                      type="button"
-                      onClick={() => removeTag(index)}
-                    >
+                    <button type="button" onClick={() => removeTag(index)}>
                       <X
                         size={14}
                         className="text-neutral-500 hover:text-red-500"
@@ -201,16 +186,35 @@ const SubmitPhoto = () => {
               </p>
             </div>
 
+            <div className="mb-8">
+              <label className="block mb-2 font-semibold text-neutral-900">
+                Type
+              </label>
+
+              <select
+                value={data.type}
+                onChange={(e) =>
+                  setData((prev) => ({
+                    ...prev,
+                    type: e.target.value,
+                  }))
+                }
+                className="w-full h-12 px-4 rounded-xl border border-neutral-300 bg-white outline-none focus:border-neutral-900 transition"
+              >
+                <option value="" className="text-neutral-500">Select a type</option>
+                <option value="photo">Photo</option>
+                <option value="illustration">Illustration</option>
+              </select>
+            </div>
+
             <button
               onClick={handleSubmit}
-              className="w-full h-12 rounded-xl bg-neutral-900 text-white font-semibold hover:bg-black transition flex items-center justify-center gap-2"
+              className="w-full h-12 rounded-xl bg-[#3B82F6] text-white font-semibold hover:bg-[#3071d9] transition flex items-center justify-center gap-2 cursor-pointer"
             >
               <UploadCloud size={18} />
               Upload Photo
             </button>
-
           </div>
-
         </div>
       </div>
     </div>

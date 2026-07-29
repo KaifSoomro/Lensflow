@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import React from "react";
 import Image from "../../assets/images/contribute_card_image_1.jpg";
 import ImageTwo from "../../assets/images/contribute_card_image_2.jpg";
+import { Link } from "react-router-dom";
 
 const ContributeCardButton = () => {
   return (
@@ -10,7 +11,7 @@ const ContributeCardButton = () => {
         Contribute your first{" "}
         <span className="font-bold text-neutral-700">photo</span>
       </h1>
-      <button className="w-full h-[85%] mt-5 border-2 border-dashed border-neutral-300 rounded-xl flex items-center justify-center cursor-pointer hover:border-neutral-400 transition-all duration-200 ease-in-out group overflow-hidden relative">
+      <Link to={"/submit-photo"} className="w-full h-[85%] mt-5 border-2 border-dashed border-neutral-300 rounded-xl flex items-center justify-center cursor-pointer hover:border-neutral-400 transition-all duration-200 ease-in-out group overflow-hidden relative">
         <img
           src={ImageTwo}
           alt="image_nature_two"
@@ -24,7 +25,7 @@ const ContributeCardButton = () => {
         <div className="w-9 h-9 rounded-full bg-[#3B82F6] text-white flex items-center justify-center group-hover:bg-[#3378e7] transition-all duration-200 ease-in-out">
           <Plus />
         </div>
-      </button>
+      </Link>
     </div>
   );
 };
