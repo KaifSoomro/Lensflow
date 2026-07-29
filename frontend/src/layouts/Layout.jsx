@@ -2,14 +2,18 @@ import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../components/common/Sidebar.jsx";
 import Topbar from "../components/common/Topbar.jsx";
 import Footer from "../components/common/Footer.jsx";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
   const location = useLocation();
+  const { user } = useSelector(state => state.user); 
+
+  const userId = user?._id;
   const hideFooterRoutes = [
     "/",
     "/illustrations",
     "/collections",
-    "/profile",
+    `/profile/${userId}`,
     "/t/nostalgia",
     "/t/summer",
     "/t/wallpapers",

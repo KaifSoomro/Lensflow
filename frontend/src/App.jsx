@@ -28,7 +28,7 @@ const App = () => {
             <Route path="/collections" element={<Collections />} />
             <Route path="/download-history" element={<DownloadHistory />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/submit-photo" element={<SubmitPhoto />} />
           </Route>

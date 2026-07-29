@@ -23,6 +23,8 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const userId = user?._id;
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -133,7 +135,7 @@ const Sidebar = () => {
           <div className="absolute bottom-10 left-16 w-55 rounded-lg shadow/7 border border-neutral-300/80 bg-white p-2">
             {user && (
               <NavLink
-                to="/profile"
+                to={`/profile/${userId}`}
                 className="hover:bg-neutral-400/10 flex items-center justify-center flex-col rounded-lg p-2 transition-all ease duration-200"
               >
                 <div className="p-1">
