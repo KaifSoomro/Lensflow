@@ -97,8 +97,6 @@ const SubmitPhoto = () => {
 
         <div className="grid lg:grid-cols-2 gap-12">
 
-          {/* Upload Area */}
-
           <div>
             <label
               htmlFor="image"
@@ -137,11 +135,7 @@ const SubmitPhoto = () => {
             />
           </div>
 
-          {/* Form */}
-
           <div className="bg-white border border-neutral-200 rounded-2xl p-8">
-
-            {/* Description */}
 
             <div className="mb-8">
               <label className="font-semibold block mb-2">
@@ -161,8 +155,6 @@ const SubmitPhoto = () => {
                 className="w-full border border-neutral-300 rounded-xl px-4 py-3 resize-none outline-none focus:border-neutral-900"
               />
             </div>
-
-            {/* Tags */}
 
             <div className="mb-8">
               <label className="font-semibold block mb-2">
