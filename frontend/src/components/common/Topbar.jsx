@@ -75,6 +75,7 @@ const Topbar = () => {
     "/download-history",
     "/bookmarks",
     "/notifications",
+    "/submit-photo"
   ];
   const showSubRoutes = !hideSubRoutes.includes(location.pathname);
   return (
