@@ -1,42 +1,35 @@
 import React, { useState } from "react";
-import { ImagePlus, UploadCloud, X } from "lucide-react";
+import { ImagePlus, Loader2, UploadCloud, X } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const SubmitPhoto = () => {
   const [preview, setPreview] = useState(null);
   const [tagInput, setTagInput] = useState("");
   const [imageType, setImageType] = useState("");
 
-  const [data, setData] = useState({
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
     image: "",
     description: "",
     tags: [],
-    type: ""
+    type: "",
   });
-
-  const convertToBase64 = (file) => {
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
-
-    reader.onload = () => {
-      setPreview(reader.result);
-
-      setData((prev) => ({
-        ...prev,
-        image: reader.result,
-      }));
-    };
-
-    reader.onerror = (err) => console.log(err);
-  };
 
   const handleImage = (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
 
-    convertToBase64(file);
+    setPreview(URL.createObjectURL(file));
+
+    setFormData((prev) => ({
+      ...prev,
+      image: file,
+    }));
   };
 
   const handleTagKeyDown = (e) => {
@@ -47,12 +40,12 @@ const SubmitPhoto = () => {
 
       if (!tag) return;
 
-      if (data.tags.includes(tag.toLowerCase())) {
+      if (formData.tags.includes(tag.toLowerCase())) {
         setTagInput("");
         return;
       }
 
-      setData((prev) => ({
+      setFormData((prev) => ({
         ...prev,
         tags: [...prev.tags, tag.toLowerCase()],
       }));
@@ -60,8 +53,8 @@ const SubmitPhoto = () => {
       setTagInput("");
     }
 
-    if (e.key === "Backspace" && tagInput === "" && data.tags.length > 0) {
-      setData((prev) => ({
+    if (e.key === "Backspace" && tagInput === "" && formData.tags.length > 0) {
+      setFormData((prev) => ({
         ...prev,
         tags: prev.tags.slice(0, -1),
       }));
@@ -69,19 +62,58 @@ const SubmitPhoto = () => {
   };
 
   const removeTag = (index) => {
-    setData((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       tags: prev.tags.filter((_, i) => i !== index),
     }));
   };
+  const { mutate: uploadPhoto, isPending } = useMutation({
+    mutationFn: async (data) => {
+      const form = new FormData();
+
+      form.append("image", data.image);
+      form.append("description", data.description);
+      form.append("type", data.type);
+      form.append("tags", JSON.stringify(data.tags));
+
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/photo/upload`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: form,
+        },
+      );
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || "Something went wrong.");
+      }
+
+      return result;
+    },
+
+    onSuccess: (result) => {
+      toast.success(result.message);
+      navigate("/");
+    },
+
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
 
   const handleSubmit = () => {
-    if (!data.image) {
+    if (!formData.image) {
       toast.error("Please select an image first.");
       return;
     }
 
-    console.log(data);
+    console.log(formData);
+    uploadPhoto(formData);
   };
 
   return (
@@ -135,9 +167,9 @@ const SubmitPhoto = () => {
 
               <textarea
                 rows={6}
-                value={data.description}
+                value={formData.description}
                 onChange={(e) =>
-                  setData((prev) => ({
+                  setFormData((prev) => ({
                     ...prev,
                     description: e.target.value,
                   }))
@@ -151,7 +183,7 @@ const SubmitPhoto = () => {
               <label className="font-semibold block mb-2">Tags</label>
 
               <div className="min-h-13 border border-neutral-300 rounded-xl p-2 flex flex-wrap gap-2 focus-within:border-neutral-900">
-                {data.tags.map((tag, index) => (
+                {formData.tags.map((tag, index) => (
                   <div
                     key={index}
                     className="bg-neutral-100 border border-neutral-300 rounded-full px-3 py-1 flex items-center gap-2"
@@ -173,7 +205,7 @@ const SubmitPhoto = () => {
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={handleTagKeyDown}
                   placeholder={
-                    data.tags.length === 0
+                    formData.tags.length === 0
                       ? "Type a tag and press Enter..."
                       : ""
                   }
@@ -192,16 +224,18 @@ const SubmitPhoto = () => {
               </label>
 
               <select
-                value={data.type}
+                value={formData.type}
                 onChange={(e) =>
-                  setData((prev) => ({
+                  setFormData((prev) => ({
                     ...prev,
                     type: e.target.value,
                   }))
                 }
                 className="w-full h-12 px-4 rounded-xl border border-neutral-300 bg-white outline-none focus:border-neutral-900 transition"
               >
-                <option value="" className="text-neutral-500">Select a type</option>
+                <option value="" className="text-neutral-500">
+                  Select a type
+                </option>
                 <option value="photo">Photo</option>
                 <option value="illustration">Illustration</option>
               </select>
@@ -211,8 +245,12 @@ const SubmitPhoto = () => {
               onClick={handleSubmit}
               className="w-full h-12 rounded-xl bg-[#3B82F6] text-white font-semibold hover:bg-[#3071d9] transition flex items-center justify-center gap-2 cursor-pointer"
             >
-              <UploadCloud size={18} />
-              Upload Photo
+              {isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <UploadCloud size={18} />
+              )}
+              {isPending ? "Uploading..." : "Upload Photo"}
             </button>
           </div>
         </div>
