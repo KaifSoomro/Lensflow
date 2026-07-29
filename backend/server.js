@@ -3,25 +3,36 @@ import express from "express";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import photoRoutes from "./routes/photoRoutes.js";
 import cors from "cors";
 import helmet from "helmet";
+import { v2 as cloudinary } from "cloudinary";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 connectDB();
 
-app.use(cors({
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+app.use(
+  cors({
     origin: process.env.FRONTEND_URL,
-    credentials: true
-}));
+    credentials: true,
+  }),
+);
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/photo/upload", photoRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
-})
+  console.log(`Server is running on port: ${PORT}`);
+});
