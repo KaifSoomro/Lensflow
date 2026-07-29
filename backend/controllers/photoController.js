@@ -13,6 +13,24 @@ export const uploadPhoto = async (req, res) => {
       });
     }
 
+    if (!["photo", "illustration"].includes(type)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid type.",
+      });
+    }
+
+    let parsedTags = [];
+
+    try {
+      parsedTags = JSON.parse(tags);
+    } catch {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid tags format.",
+      });
+    }
+
     const uploadFromBuffer = () =>
       new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
@@ -31,26 +49,25 @@ export const uploadPhoto = async (req, res) => {
 
     const result = await uploadFromBuffer();
 
-    const data = {
-      image: result.secure_url,
-      publicId: result.public_id,
-      description,
-      tags: JSON.parse(tags),
-      type,
-    };
+    if (!result?.secure_url) {
+      return res.status(500).json({
+        success: false,
+        message: "Image upload failed.",
+      });
+    }
 
     await Photo.create({
       user: req.user._id,
       image: result.secure_url,
       publicId: result.public_id,
       type,
-      tags: JSON.parse(tags),
-      description
+      tags: parsedTags,
+      description,
     });
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
-      message: `${type} uploaded successful.`
+      message: `${type} uploaded successfully.`,
     });
   } catch (error) {
     console.log(error);
