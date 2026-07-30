@@ -13,6 +13,16 @@ const photoSchema = new mongoose.Schema(
       required: true,
     },
 
+    cardImage: {
+      type: String,
+      required: true,
+    },
+    
+    previewImage: {
+      type: String,
+      required: true,
+    },
+
     publicId: {
       type: String,
       required: true,
@@ -22,6 +32,7 @@ const photoSchema = new mongoose.Schema(
       type: String,
       enum: ["photo", "illustration"],
       default: "photo",
+      required: true
     },
 
     category: {
@@ -40,12 +51,14 @@ const photoSchema = new mongoose.Schema(
         "street-photography",
       ],
       default: "featured",
+      required: true
     },
 
     orientation: {
       type: String,
-      enum: ["landscape", "portrait"],
-      default: "portrait"
+      enum: ["landscape", "portrait", "square"],
+      default: "portrait",
+      required: true
     },
 
     tags: [

@@ -240,6 +240,7 @@ const SubmitPhoto = () => {
                 </option>
                 <option value="portrait">Portrait</option>
                 <option value="landscape">Landscape</option>
+                <option value="square">Square</option>
               </select>
             </div>
 

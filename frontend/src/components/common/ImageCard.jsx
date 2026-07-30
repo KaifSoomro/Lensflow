@@ -7,10 +7,10 @@ const ImageCard = ({ value }) => {
   return (
     <Link
       to={`/photo/${value?._id}`}
-      className="group relative mb-7 block w-full overflow-hidden rounded-lg cursor-zoom-in break-inside-avoid"
+      className="group relative mb-7 block w-full overflow-hidden rounded-lg cursor-zoom-in break-inside-avoid border border-neutral-300"
     >
       <img
-        src={value?.image_url}
+        src={value?.cardImage}
         alt={`image-${value?._id}`}
         className="block w-full h-auto object-cover transition-transform duration-200"
         draggable={false}
@@ -46,7 +46,7 @@ const ImageCard = ({ value }) => {
                 {value?.user?.fullName}
               </h3>
 
-              {value?.available && (
+              {value?.user?.available && (
                 <p className="text-gray-300 text-xs flex items-center gap-1">
                   Available for hire
                   <span className="w-3 h-3 rounded-full flex items-center justify-center bg-gray-300 text-gray-900">

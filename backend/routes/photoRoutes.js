@@ -1,6 +1,6 @@
 import express from "express";
 import protectRoute from "../middlewares/protectRoute.js";
-import { uploadPhoto } from "../controllers/photoController.js";
+import { getAllPhotos, uploadPhoto } from "../controllers/photoController.js";
 import upload from "../middlewares/multer.js"
 
 const router = express.Router();

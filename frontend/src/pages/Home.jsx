@@ -5,6 +5,8 @@ import ImageCard from "../components/common/ImageCard.jsx";
 import Image from "../assets/images/mock_1.jpg";
 import ImageTwo from "../assets/images/mock_2.jpg";
 import ImageThree from "../assets/images/mock_3.jpg";
+import { useQuery } from "@tanstack/react-query";
+import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
@@ -46,6 +48,29 @@ const Home = () => {
       available: true
     },
   ];
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['homeData'],
+    queryFn: async() => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/photo/all`, {
+          method: "GET"
+        });
+
+        const data = await res.json();
+
+        if(!res.ok){
+          throw new Error(data.message || "Something went wrong.");
+        }
+
+        return data?.photos
+      } catch (error) {
+        throw error;
+      }
+    }
+  })
+
+  console.log(data)
   return (
     <div className="max-w-7xl mx-auto">
       {user && (
@@ -55,7 +80,10 @@ const Home = () => {
       )}
       <div className="mt-10 columns-3 gap-7">
         {
-          imageData?.map((value, index) => (
+          isLoading && <ImageCardSkeleton />
+        }
+        {
+          data?.map((value, index) => (
             <ImageCard key={index} value={value}/>
           ))
         }

@@ -6,13 +6,6 @@ export const uploadPhoto = async (req, res) => {
   try {
     const { description, tags, type, category, orientation } = req.body;
 
-    if (!description || !tags || !category || !orientation) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required.",
-      });
-    }
-
     if (!req.file) {
       return res.status(400).json({
         success: false,
@@ -56,6 +49,18 @@ export const uploadPhoto = async (req, res) => {
 
     const result = await uploadFromBuffer();
 
+    const previewImage = result.secure_url.replace(
+      "/upload/",
+      "/upload/f_auto,q_auto,w_700,e_blur:50/",
+    );
+
+    const detailImage = result.secure_url.replace(
+      "/upload/",
+      "/upload/f_auto,q_auto,w_1600/",
+    );
+
+    const originalImage = result.secure_url;
+
     if (!result?.secure_url) {
       return res.status(500).json({
         success: false,
@@ -65,7 +70,9 @@ export const uploadPhoto = async (req, res) => {
 
     await Photo.create({
       user: req.user._id,
-      image: result.secure_url,
+      image: originalImage,
+      previewImage: detailImage,
+      cardImage: previewImage,
       publicId: result.public_id,
       type,
       category,
@@ -88,7 +95,7 @@ export const uploadPhoto = async (req, res) => {
 
 export const getAllPhotos = async (req, res) => {
   try {
-    const photos = await Photo.find();
+    const photos = await Photo.find().populate("user", "-password");
 
     if (!photos) {
       return res.status(404).json({
@@ -96,6 +103,11 @@ export const getAllPhotos = async (req, res) => {
         message: "Photos not found",
       });
     }
+
+    return res.status(200).json({
+      success: true,
+      photos,
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
