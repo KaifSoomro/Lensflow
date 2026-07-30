@@ -4,7 +4,14 @@ import Photo from "../models/photoModel.js";
 
 export const uploadPhoto = async (req, res) => {
   try {
-    const { description, tags, type } = req.body;
+    const { description, tags, type, category, orientation } = req.body;
+
+    if (!description || !tags || !category || !orientation) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required.",
+      });
+    }
 
     if (!req.file) {
       return res.status(400).json({
@@ -61,6 +68,8 @@ export const uploadPhoto = async (req, res) => {
       image: result.secure_url,
       publicId: result.public_id,
       type,
+      category,
+      orientation,
       tags: parsedTags,
       description,
     });
@@ -70,7 +79,24 @@ export const uploadPhoto = async (req, res) => {
       message: `${type} uploaded successfully.`,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllPhotos = async (req, res) => {
+  try {
+    const photos = await Photo.find();
+
+    if (!photos) {
+      return res.status(404).json({
+        success: false,
+        message: "Photos not found",
+      });
+    }
+  } catch (error) {
     return res.status(500).json({
       success: false,
       message: error.message,

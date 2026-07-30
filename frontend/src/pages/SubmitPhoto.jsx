@@ -17,6 +17,8 @@ const SubmitPhoto = () => {
     description: "",
     tags: [],
     type: "",
+    category: "",
+    orientation: ""
   });
 
   const handleImage = (e) => {
@@ -117,9 +119,9 @@ const SubmitPhoto = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 py-14 px-5">
+    <div className="min-h-screen bg-neutral-50 py-8 px-5">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
+        <div className="mb-10">
           <h1 className="text-4xl font-bold text-neutral-900">
             Submit a Photo
           </h1>
@@ -162,7 +164,7 @@ const SubmitPhoto = () => {
           </div>
 
           <div className="bg-white border border-neutral-200 rounded-2xl p-8">
-            <div className="mb-8">
+            <div className="mb-6">
               <label className="font-semibold block mb-2">Description</label>
 
               <textarea
@@ -179,7 +181,7 @@ const SubmitPhoto = () => {
               />
             </div>
 
-            <div className="mb-8">
+            <div className="mb-6">
               <label className="font-semibold block mb-2">Tags</label>
 
               <div className="min-h-13 border border-neutral-300 rounded-xl p-2 flex flex-wrap gap-2 focus-within:border-neutral-900">
@@ -218,7 +220,62 @@ const SubmitPhoto = () => {
               </p>
             </div>
 
-            <div className="mb-8">
+            <div className="mb-6">
+              <label className="block mb-2 font-semibold text-neutral-900">
+                Orientation
+              </label>
+
+              <select
+                value={formData.orientation}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    orientation: e.target.value,
+                  }))
+                }
+                className="w-full h-12 px-4 rounded-xl border border-neutral-300 bg-white outline-none focus:border-neutral-900 transition"
+              >
+                <option value="" className="text-neutral-500">
+                  Select a orientation
+                </option>
+                <option value="portrait">Portrait</option>
+                <option value="landscape">Landscape</option>
+              </select>
+            </div>
+
+            <div className="mb-6">
+              <label className="block mb-2 font-semibold text-neutral-900">
+                Category
+              </label>
+
+              <select
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    category: e.target.value,
+                  }))
+                }
+                className="w-full h-12 px-4 rounded-xl border border-neutral-300 bg-white outline-none focus:border-neutral-900 transition"
+              >
+                <option value="" className="text-neutral-500">
+                  Select a category
+                </option>
+                <option value="featured">Featured</option>
+                <option value="illustration">Illustration</option>
+                <option value="collections">Collections</option>
+                <option value="nostalgia">Nostalgia</option>
+                <option value="summer">Summer</option>
+                <option value="wallpapers">Wallpapers</option>
+                <option value="3d-renders">3d Renders</option>
+                <option value="nature">Nature</option>
+                <option value="texture">Texture</option>
+                <option value="film">Film</option>
+                <option value="street-photography">Street Photography</option>
+              </select>
+            </div>
+
+            <div className="mb-6">
               <label className="block mb-2 font-semibold text-neutral-900">
                 Type
               </label>

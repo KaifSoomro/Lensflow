@@ -24,6 +24,30 @@ const photoSchema = new mongoose.Schema(
       default: "photo",
     },
 
+    category: {
+      type: String,
+      enum: [
+        "featured",
+        "illustrations",
+        "collections",
+        "nostalgia",
+        "summer",
+        "wallpapers",
+        "3d-renders",
+        "nature",
+        "texture",
+        "film",
+        "street-photography",
+      ],
+      default: "featured",
+    },
+
+    orientation: {
+      type: String,
+      enum: ["landscape", "portrait"],
+      default: "portrait"
+    },
+
     tags: [
       {
         type: String,
@@ -55,7 +79,7 @@ const photoSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Photo = mongoose.model("Photo", photoSchema);
