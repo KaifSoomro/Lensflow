@@ -21,7 +21,7 @@ const Home = () => {
         email: "kaifsoomro82@gmail.com",
       },
       image_url: Image,
-      available: false
+      available: false,
     },
 
     {
@@ -33,44 +33,46 @@ const Home = () => {
         email: "basitsoomro822@gmail.com",
       },
       image_url: ImageTwo,
-      available: true
+      available: true,
     },
 
     {
       _id: 3,
       user: {
         fullName: "Sarim",
-        profileImage:
-          "",
+        profileImage: "",
         email: "sarim@gmail.com",
       },
       image_url: ImageThree,
-      available: true
+      available: true,
     },
   ];
 
   const { data, isLoading } = useQuery({
-    queryKey: ['homeData'],
-    queryFn: async() => {
+    queryKey: ["homeData"],
+    queryFn: async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/photo/all`, {
-          method: "GET"
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/photo/all`,
+          {
+            method: "GET",
+          },
+        );
 
         const data = await res.json();
 
-        if(!res.ok){
+        if (!res.ok) {
           throw new Error(data.message || "Something went wrong.");
         }
 
-        return data?.photos
+        return data?.photos;
       } catch (error) {
         throw error;
       }
-    }
-  })
+    },
+  });
 
-  console.log(data)
+  console.log(data);
   return (
     <div className="max-w-7xl mx-auto">
       {user && (
@@ -79,13 +81,9 @@ const Home = () => {
         </div>
       )}
       <div className="mt-10 columns-3 gap-7">
-        {
-          isLoading && <ImageCardSkeleton />
-        }
-        {
-          data?.map((value, index) => (
-            <ImageCard key={index} value={value}/>
-          ))
+        {isLoading && <ImageCardSkeleton />}
+        {Array.isArray(data) &&
+          data.map((value) => <ImageCard key={value._id} value={value} />)
         }
       </div>
     </div>
