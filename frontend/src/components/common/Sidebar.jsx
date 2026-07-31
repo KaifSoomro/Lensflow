@@ -44,7 +44,6 @@ const Sidebar = () => {
     dispatch(setUser(null));
 
     toast.success("Logout successful.");
-    // navigate("/login")
   };
 
   return (

@@ -15,6 +15,7 @@ import Notifications from "./pages/Notifications";
 import ProtectRoutes from "./components/common/ProtectRoutes";
 import CategoryPage from "./pages/CategoryPage";
 import SubmitPhoto from "./pages/SubmitPhoto";
+import SinglePhoto from "./pages/SinglePhoto";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/illustrations" element={<Illustrations />} />
           <Route path="/t/:category" element={<CategoryPage />} />
+          <Route path="/photo/:photoId" element={<SinglePhoto />} />
           <Route element={<ProtectRoutes />}>
             <Route path="/collections" element={<Collections />} />
             <Route path="/download-history" element={<DownloadHistory />} />

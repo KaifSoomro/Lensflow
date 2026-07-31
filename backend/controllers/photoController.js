@@ -51,7 +51,7 @@ export const uploadPhoto = async (req, res) => {
 
     const previewImage = result.secure_url.replace(
       "/upload/",
-      "/upload/f_auto,q_auto,w_700,e_blur:50/",
+      "/upload/f_auto,q_auto,w_700,e_blur:40/",
     );
 
     const detailImage = result.secure_url.replace(
