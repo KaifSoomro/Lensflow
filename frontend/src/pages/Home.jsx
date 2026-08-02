@@ -11,43 +11,6 @@ import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
 const Home = () => {
   const { user } = useSelector((state) => state.user);
 
-  const imageData = [
-    {
-      _id: 1,
-      user: {
-        fullName: "Kaif Soomro",
-        profileImage:
-          "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg",
-        email: "kaifsoomro82@gmail.com",
-      },
-      image_url: Image,
-      available: false,
-    },
-
-    {
-      _id: 2,
-      user: {
-        fullName: "Basit Soomro",
-        profileImage:
-          "https://static.vecteezy.com/system/resources/thumbnails/005/346/410/small/close-up-portrait-of-smiling-handsome-young-caucasian-man-face-looking-at-camera-on-isolated-light-gray-studio-background-photo.jpg",
-        email: "basitsoomro822@gmail.com",
-      },
-      image_url: ImageTwo,
-      available: true,
-    },
-
-    {
-      _id: 3,
-      user: {
-        fullName: "Sarim",
-        profileImage: "",
-        email: "sarim@gmail.com",
-      },
-      image_url: ImageThree,
-      available: true,
-    },
-  ];
-
   const { data, isLoading } = useQuery({
     queryKey: ["homeData"],
     queryFn: async () => {
@@ -72,7 +35,6 @@ const Home = () => {
     },
   });
 
-  console.log(data);
   return (
     <div className="max-w-7xl mx-auto">
       {user && (

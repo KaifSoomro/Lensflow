@@ -140,3 +140,31 @@ export const getSinglePhoto = async (req, res) => {
     });
   }
 };
+
+export const addViews = async(req, res) => {
+  try {
+    const { photoId } = req.params;
+
+    let photo = await Photo.findById({_id:photoId});
+
+    if(!photo){
+      return res.status(404).json({
+        success: false,
+        message: "Photo not found"
+      });
+    }
+
+    photo.views += 1;
+
+    await photo.save();
+
+    return res.status(200).json({
+      success: true
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
