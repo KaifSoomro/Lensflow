@@ -1,12 +1,47 @@
 import { Check, Plus, Bookmark, ArrowDown } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import userImage from "../../assets/images/profile.webp";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ImageCard = ({ value }) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutate: addPhotoView } = useMutation({
+    mutationFn: async (photoId) => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/photo/views/${photoId}`,
+          {
+            method: "POST",
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Something went wrong.");
+        }
+
+        return data;
+      } catch (error) {
+        throw new error();
+      }
+    },
+    onSuccess: (_, photoId) => {
+      queryClient.invalidateQueries({
+        queryKey: ["singlePhoto", photoId],
+      });
+      navigate(`/photo/${value?._id}`);
+    },
+  });
+
+  const handleCard = () => {
+    addPhotoView(value?._id);
+  };
   return (
-    <Link
-      to={`/photo/${value?._id}`}
+    <div
+      onClick={handleCard}
       className="group relative mb-7 block w-full overflow-hidden rounded-lg cursor-zoom-in break-inside-avoid border border-neutral-300"
     >
       <img
@@ -64,7 +99,7 @@ const ImageCard = ({ value }) => {
           </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

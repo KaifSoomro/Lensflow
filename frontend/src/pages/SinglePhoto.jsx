@@ -10,12 +10,14 @@ import {
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import Image from "../assets/images/profile.webp";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const SinglePhoto = () => {
   const { photoId } = useParams();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["homeData"],
+    queryKey: ["singlePhoto"],
     queryFn: async () => {
       try {
         const res = await fetch(
@@ -139,11 +141,13 @@ const SinglePhoto = () => {
       </div>
 
       <div className="flex items-center justify-center mt-10 flex-col">
-        <img
-          src={data?.previewImage}
-          alt="preview-image"
-          className="w-200 cursor-zoom-in"
-        />
+        <Zoom>
+          <img
+            src={data?.previewImage}
+            alt="preview-image"
+            className="w-200 cursor-zoom-in"
+          />
+        </Zoom>
       </div>
       <div className="flex items-center justify-between mt-10">
         <div className="flex items-center gap-25">
@@ -154,7 +158,7 @@ const SinglePhoto = () => {
 
           <div className="flex items-center justify-center flex-col">
             <h1 className="text-neutral-500">Downloads</h1>
-            <p>{data?.views}</p>
+            <p>{data?.downloads}</p>
           </div>
         </div>
 
@@ -165,8 +169,11 @@ const SinglePhoto = () => {
 
       <div className="mt-10 flex items-center gap-4">
         {data?.tags?.map((text, index) => (
-          <div key={index} className="bg-neutral-200 text-neutral-600 text-sm rounded-lg py-1 px-2 capitalize">
-            { text }
+          <div
+            key={index}
+            className="bg-neutral-200 text-neutral-600 text-sm rounded-lg py-1 px-2 capitalize"
+          >
+            {text}
           </div>
         ))}
       </div>
