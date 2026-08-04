@@ -1,10 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Bookmark,
   Calendar,
   Check,
   ChevronDown,
   Download,
+  Loader2,
   Plus,
 } from "lucide-react";
 import React from "react";
@@ -12,9 +13,11 @@ import { Link, useParams } from "react-router-dom";
 import Image from "../assets/images/profile.webp";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import { toast } from "react-hot-toast";
 
 const SinglePhoto = () => {
   const { photoId } = useParams();
+  const token = localStorage.getItem("token");
 
   const { data, isLoading } = useQuery({
     queryKey: ["singlePhoto"],
@@ -40,7 +43,43 @@ const SinglePhoto = () => {
     },
   });
 
-  console.log(data);
+  const { mutate: addBookmark, isPending } = useMutation({
+    mutationFn: async (photoId) => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/add/bookmark`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ photoId }),
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Something went wrong.");
+        }
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onError: (data) => {
+      toast.error(data?.message || "Already in bookmarks.");
+    },
+    onSuccess: (data) => {
+      toast.success(data?.message);
+    },
+  });
+
+  const handleBookmark = () => {
+    addBookmark(data?._id);
+  };
   return (
     <div className="w-full px-10">
       <div className="w-full h-15 bg-white flex items-center justify-between">
@@ -68,9 +107,14 @@ const SinglePhoto = () => {
         <div className="flex items-center gap-3">
           <button
             title="Bookmarks"
+            onClick={handleBookmark}
             className="text-neutral-500/80 hover:text-neutral-800 border hover:border-neutral-800 rounded-lg p-2 transition-all ease duration-200 cursor-pointer shadow"
           >
-            <Bookmark size={23} />
+            {isPending ? (
+              <Loader2 size={23} className="animate-spin transition-all" />
+            ) : (
+              <Bookmark size={23} />
+            )}
           </button>
 
           <button

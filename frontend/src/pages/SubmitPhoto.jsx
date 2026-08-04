@@ -19,7 +19,7 @@ const SubmitPhoto = () => {
     tags: [],
     type: "",
     category: "",
-    orientation: ""
+    orientation: "",
   });
 
   const handleImage = (e) => {

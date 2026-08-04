@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     },
     isVerified: {
       type: Boolean,
-      default: false
+      default: false,
     },
     profileImage: {
       type: String,
@@ -59,6 +59,12 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    bookmarks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Photo",
+      },
+    ],
   },
   {
     timestamps: true,

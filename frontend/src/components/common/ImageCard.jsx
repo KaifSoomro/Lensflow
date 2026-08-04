@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 const ImageCard = ({ value }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const token = localStorage.getItem("token");
   const { mutate: addPhotoView } = useMutation({
     mutationFn: async (photoId) => {
       try {
@@ -39,6 +40,38 @@ const ImageCard = ({ value }) => {
   const handleCard = () => {
     addPhotoView(value?._id);
   };
+
+  const { mutate: addBookmark } = useMutation({
+    mutationFn: async (photoId) => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/add/bookmark`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"
+            },
+            body: photoId
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Something went wrong.");
+        }
+
+        return data;
+      } catch (error) {
+        throw new error();
+      }
+    },
+  });
+  
+  const handleBookmark = () => {
+    addBookmark(value?._id);
+  }
   return (
     <div
       onClick={handleCard}
@@ -55,6 +88,7 @@ const ImageCard = ({ value }) => {
         <div className="absolute top-0 right-0 p-4 flex items-center justify-between gap-3">
           <button
             title="Bookmark"
+            onClick={handleBookmark}
             className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200"
           >
             <Bookmark size={21} />
