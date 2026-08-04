@@ -169,12 +169,13 @@ const SinglePhoto = () => {
 
       <div className="mt-10 flex items-center gap-4">
         {data?.tags?.map((text, index) => (
-          <div
+          <Link
+            to={`/s/photos/${text}`}
             key={index}
             className="bg-neutral-200 text-neutral-600 text-sm rounded-lg py-1 px-2 capitalize"
           >
             {text}
-          </div>
+          </Link>
         ))}
       </div>
     </div>

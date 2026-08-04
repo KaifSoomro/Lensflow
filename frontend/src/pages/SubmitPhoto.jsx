@@ -3,6 +3,7 @@ import { ImagePlus, Loader2, UploadCloud, X } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import ImageUpload from "../assets/images/empty-upload.png";
 
 const SubmitPhoto = () => {
   const [preview, setPreview] = useState(null);
@@ -145,7 +146,7 @@ const SubmitPhoto = () => {
                 />
               ) : (
                 <div className="text-center">
-                  <ImagePlus size={60} className="mx-auto text-neutral-400" />
+                  <img src={ImageUpload} alt="" />
 
                   <h2 className="mt-5 text-xl font-semibold">Upload Photo</h2>
 
