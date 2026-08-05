@@ -10,6 +10,7 @@ import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
+  const token = localStorage.getItem("token");
 
   const { data, isLoading } = useQuery({
     queryKey: ["homeData"],
@@ -35,6 +36,35 @@ const Home = () => {
     },
   });
 
+  const { data: bookmarks } = useQuery({
+    queryKey: ["bookmarkIds"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/get/bookmarksId`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Something went wrong.");
+        }
+
+        return data?.bookmarksId;
+      } catch (error) {
+        throw error;
+      }
+    },
+  });
+
+  const bookmarkedIds = new Set(bookmarks || []);
+
   return (
     <div className="max-w-7xl mx-auto">
       {user && (
@@ -45,8 +75,13 @@ const Home = () => {
       <div className="mt-10 columns-3 gap-7">
         {isLoading && <ImageCardSkeleton />}
         {Array.isArray(data) &&
-          data.map((value) => <ImageCard key={value._id} value={value} />)
-        }
+          data.map((value) => (
+            <ImageCard
+              key={value._id}
+              value={value}
+              isBookmarked={bookmarkedIds.has(value._id)}
+            />
+          ))}
       </div>
     </div>
   );

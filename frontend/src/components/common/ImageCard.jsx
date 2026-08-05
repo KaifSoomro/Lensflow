@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import userImage from "../../assets/images/profile.webp";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const ImageCard = ({ value }) => {
+const ImageCard = ({ value, isBookmarked }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = localStorage.getItem("token");
@@ -50,9 +50,9 @@ const ImageCard = ({ value }) => {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
-            body: photoId
+            body: photoId,
           },
         );
 
@@ -68,14 +68,14 @@ const ImageCard = ({ value }) => {
       }
     },
   });
-  
+
   const handleBookmark = () => {
     addBookmark(value?._id);
-  }
+  };
   return (
     <div
       onClick={handleCard}
-      className="group relative mb-7 block w-full overflow-hidden rounded-lg cursor-zoom-in break-inside-avoid border border-neutral-300"
+      className="group relative mb-7 block w-full overflow-hidden cursor-zoom-in break-inside-avoid border border-neutral-300"
     >
       <img
         src={value?.cardImage}
@@ -91,7 +91,11 @@ const ImageCard = ({ value }) => {
             onClick={handleBookmark}
             className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200"
           >
-            <Bookmark size={21} />
+            {isBookmarked ? (
+              <Bookmark size={21} className="fill-current text-orange-400" />
+            ) : (
+              <Bookmark size={21} />
+            )}
           </button>
 
           <button

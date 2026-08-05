@@ -67,3 +67,58 @@ export const addBookmark = async (req, res) => {
     });
   }
 };
+
+export const getBookmarks = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id)
+      .select("bookmarks")
+      .populate({
+        path: "bookmarks",
+        populate: {
+          path: "user",
+          select: "-password",
+        },
+      });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    if (user.bookmarks.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No bookmarks found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      bookmarks: user.bookmarks,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error in getBookmarks controller.",
+      error: error.message,
+    });
+  }
+};
+
+export const getBookmarkIds = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("bookmarks").lean();
+
+    return res.status(200).json({
+      success: true,
+      bookmarksId: user.bookmarks,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
