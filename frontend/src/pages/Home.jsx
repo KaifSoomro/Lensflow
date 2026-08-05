@@ -7,6 +7,7 @@ import ImageTwo from "../assets/images/mock_2.jpg";
 import ImageThree from "../assets/images/mock_3.jpg";
 import { useQuery } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
+import { fetchBookmarkIds } from "../utils/getBookmarks.js";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
@@ -38,29 +39,7 @@ const Home = () => {
 
   const { data: bookmarks } = useQuery({
     queryKey: ["bookmarkIds"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/get/bookmarksId`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.message || "Something went wrong.");
-        }
-
-        return data?.bookmarksId;
-      } catch (error) {
-        throw error;
-      }
-    },
+    queryFn: fetchBookmarkIds
   });
 
   const bookmarkedIds = new Set(bookmarks || []);

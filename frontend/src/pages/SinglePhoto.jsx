@@ -16,12 +16,13 @@ import "react-medium-image-zoom/dist/styles.css";
 import { toast } from "react-hot-toast";
 import useFormatDate from "../utils/useFormatDate.js";
 import { useSelector } from "react-redux";
+import { fetchBookmarkIds } from "../utils/getBookmarks.js";
 
 const SinglePhoto = () => {
   const { photoId } = useParams();
   const token = localStorage.getItem("token");
   const formatDate = useFormatDate();
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const { data, isLoading } = useQuery({
     queryKey: ["singlePhoto"],
@@ -81,12 +82,21 @@ const SinglePhoto = () => {
     },
   });
 
+  const { data: bookmarks } = useQuery({
+    queryKey: ["bookmarkIds"],
+    queryFn: fetchBookmarkIds,
+  });
+
   const handleBookmark = () => {
-    if(!user){
+    if (!user) {
       return toast.error("Log in to bookmark this photo.");
     }
     addBookmark(data?._id);
   };
+
+  const bookmarkedIds = new Set(bookmarks || []);
+  const isBookmarked = bookmarkedIds.has(data?._id);
+
   return (
     <div className="w-full px-10">
       <div className="w-full h-15 bg-white flex items-center justify-between">
@@ -113,12 +123,14 @@ const SinglePhoto = () => {
         </Link>
         <div className="flex items-center gap-3">
           <button
-            title="Bookmarks"
+            title={ isBookmarked ? "Remove from bookmarks" : "Add to bookmarks" }
             onClick={handleBookmark}
-            className="text-neutral-500/80 hover:text-neutral-800 border hover:border-neutral-800 rounded-lg p-2 transition-all ease duration-200 cursor-pointer shadow"
+            className="text-neutral-500/80 hover:text-neutral-800 border border-neutral-400 hover:border-neutral-800 rounded-lg p-2 transition-all ease duration-200 cursor-pointer shadow"
           >
             {isPending ? (
               <Loader2 size={23} className="animate-spin transition-all" />
+            ) : isBookmarked ? (
+              <Bookmark size={23} className="fill-current text-orange-400" />
             ) : (
               <Bookmark size={23} />
             )}
@@ -126,7 +138,7 @@ const SinglePhoto = () => {
 
           <button
             title="Add to Collection"
-            className="text-neutral-500/80 hover:text-neutral-800 border hover:border-neutral-800 rounded-lg p-2 transition-all ease duration-200 cursor-pointer shadow"
+            className="text-neutral-500/80 hover:text-neutral-800 border border-neutral-400 hover:border-neutral-800 rounded-lg p-2 transition-all ease duration-200 cursor-pointer shadow"
           >
             <Plus size={23} />
           </button>
@@ -214,7 +226,7 @@ const SinglePhoto = () => {
         </div>
 
         <h1 className="text-neutral-500 flex items-center gap-2">
-          <Calendar size={18} /> Published on { formatDate(data?.createdAt) }
+          <Calendar size={18} /> Published on {formatDate(data?.createdAt)}
         </h1>
       </div>
 
