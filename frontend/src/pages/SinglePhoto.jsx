@@ -14,10 +14,14 @@ import Image from "../assets/images/profile.webp";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { toast } from "react-hot-toast";
+import useFormatDate from "../utils/useFormatDate.js";
+import { useSelector } from "react-redux";
 
 const SinglePhoto = () => {
   const { photoId } = useParams();
   const token = localStorage.getItem("token");
+  const formatDate = useFormatDate();
+  const { user } = useSelector(state => state.user);
 
   const { data, isLoading } = useQuery({
     queryKey: ["singlePhoto"],
@@ -78,6 +82,9 @@ const SinglePhoto = () => {
   });
 
   const handleBookmark = () => {
+    if(!user){
+      return toast.error("Log in to bookmark this photo.");
+    }
     addBookmark(data?._id);
   };
   return (
@@ -207,7 +214,7 @@ const SinglePhoto = () => {
         </div>
 
         <h1 className="text-neutral-500 flex items-center gap-2">
-          <Calendar size={18} /> Published on 20/10/2026
+          <Calendar size={18} /> Published on { formatDate(data?.createdAt) }
         </h1>
       </div>
 
