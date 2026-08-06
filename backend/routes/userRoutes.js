@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  addBookmark,
+  toggleBookmark,
   getBookmarkIds,
   getBookmarks,
   getProfile,
@@ -10,7 +10,7 @@ import protectRoute from "../middlewares/protectRoute.js";
 const router = express.Router();
 
 router.get("/profile/:userId", protectRoute, getProfile);
-router.post("/add/bookmark", protectRoute, addBookmark);
+router.post("/toggle/bookmark", protectRoute, toggleBookmark);
 router.get("/get/bookmarks", protectRoute, getBookmarks);
 router.get("/get/bookmarksId", protectRoute, getBookmarkIds);
 

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Bookmark,
   Calendar,
@@ -23,6 +23,7 @@ const SinglePhoto = () => {
   const token = localStorage.getItem("token");
   const formatDate = useFormatDate();
   const { user } = useSelector((state) => state.user);
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
     queryKey: ["singlePhoto"],
@@ -48,11 +49,11 @@ const SinglePhoto = () => {
     },
   });
 
-  const { mutate: addBookmark, isPending } = useMutation({
+  const { mutate: toggleBookmark, isPending } = useMutation({
     mutationFn: async (photoId) => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/add/bookmark`,
+          `${import.meta.env.VITE_BACKEND_URL}/user/toggle/bookmark`,
           {
             method: "POST",
             headers: {
@@ -74,13 +75,13 @@ const SinglePhoto = () => {
         throw error;
       }
     },
-    onError: (data) => {
-      toast.error(data?.message || "Already in bookmarks.");
-    },
     onSuccess: (data) => {
       toast.success(data?.message);
+      queryClient.invalidateQueries(["bookmarkIds"]);
     },
   });
+
+  console.log(data)
 
   const { data: bookmarks } = useQuery({
     queryKey: ["bookmarkIds"],
@@ -91,7 +92,7 @@ const SinglePhoto = () => {
     if (!user) {
       return toast.error("Log in to bookmark this photo.");
     }
-    addBookmark(data?._id);
+    toggleBookmark(data?._id);
   };
 
   const bookmarkedIds = new Set(bookmarks || []);

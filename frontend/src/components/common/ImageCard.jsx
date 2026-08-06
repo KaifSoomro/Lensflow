@@ -1,13 +1,15 @@
-import { Check, Plus, Bookmark, ArrowDown } from "lucide-react";
+import { Check, Plus, Bookmark, ArrowDown, Loader2 } from "lucide-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import userImage from "../../assets/images/profile.webp";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const ImageCard = ({ value, isBookmarked }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = localStorage.getItem("token");
+
   const { mutate: addPhotoView } = useMutation({
     mutationFn: async (photoId) => {
       try {
@@ -41,18 +43,18 @@ const ImageCard = ({ value, isBookmarked }) => {
     addPhotoView(value?._id);
   };
 
-  const { mutate: addBookmark } = useMutation({
+  const { mutate: toggleBookmark, isPending } = useMutation({
     mutationFn: async (photoId) => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/add/bookmark`,
+          `${import.meta.env.VITE_BACKEND_URL}/user/toggle/bookmark`,
           {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
-            body: photoId,
+            body: JSON.stringify({ photoId }),
           },
         );
 
@@ -67,10 +69,22 @@ const ImageCard = ({ value, isBookmarked }) => {
         throw new error();
       }
     },
+    onSuccess: (data) => {
+      toast.success(data?.message);
+      
+      queryClient.invalidateQueries({
+        queryKey: ["getBookmarks"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["bookmarkIds"],
+      });
+    },
   });
 
-  const handleBookmark = () => {
-    addBookmark(value?._id);
+  const handleBookmark = (e) => {
+    e.stopPropagation();
+    toggleBookmark(value?._id);
   };
   return (
     <div
@@ -87,11 +101,13 @@ const ImageCard = ({ value, isBookmarked }) => {
       <div className="absolute inset-0 z-10 bg-black/20 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
         <div className="absolute top-0 right-0 p-4 flex items-center justify-between gap-3">
           <button
-            title={ isBookmarked ? "Remove from bookmarks" : "Add to bookmarks" }
+            title={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
             onClick={handleBookmark}
             className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200"
           >
-            {isBookmarked ? (
+            {isPending ? (
+              <Loader2 size={21} className="animate-spin transition-all" />
+            ) : isBookmarked ? (
               <Bookmark size={21} className="fill-current text-orange-400" />
             ) : (
               <Bookmark size={21} />

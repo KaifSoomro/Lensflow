@@ -27,7 +27,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
-export const addBookmark = async (req, res) => {
+export const toggleBookmark = async (req, res) => {
   try {
     const { photoId } = req.body;
     const user = await User.findById(req.user._id);
@@ -45,9 +45,12 @@ export const addBookmark = async (req, res) => {
     );
 
     if (alreadyBookmarked) {
-      return res.status(400).json({
-        success: false,
-        message: "Already in bookmarks",
+      user.bookmarks = user.bookmarks.filter((id) => id.toString() !== photoId);
+      await user.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Removed from bookmarks.",
       });
     }
 
@@ -57,7 +60,7 @@ export const addBookmark = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Added to bookmarks successfully.",
+      message: "Added to bookmarks.",
     });
   } catch (error) {
     return res.status(500).json({
@@ -88,9 +91,8 @@ export const getBookmarks = async (req, res) => {
     }
 
     if (user.bookmarks.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No bookmarks found.",
+      return res.status(200).json({
+        bookmarks: user.bookmarks
       });
     }
 
