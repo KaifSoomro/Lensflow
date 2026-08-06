@@ -1,10 +1,11 @@
 import React from "react";
 import { GoBookmarkSlash } from "react-icons/go";
 import { IoBookmarkSharp } from "react-icons/io5";
-import { Bookmark, Trash2 } from "lucide-react";
+import { Bookmark, Download, Folders, Trash2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton";
 import ImageCard from "../components/common/ImageCard";
+import { HiLockClosed } from "react-icons/hi";
 
 const Bookmarks = () => {
   const token = localStorage.getItem("token");
@@ -46,11 +47,17 @@ const Bookmarks = () => {
         </div>
         {data?.length > 0 ? (
           <div className="flex items-center gap-2.5">
-            <button className="flex items-center gap-1.5 px-2 py-1 border-2 border-black rounded-lg cursor-pointer text-red-400  transition-all ease duration-200 text-sm font-semibold hover:text-red-600">
-              <Trash2 size={18} /> Clear
+            <button className="flex items-center gap-1.5 px-2 py-1 border-2 border-black rounded-lg cursor-pointer text-white transition-all ease duration-200 text-sm font-semibold bg-black hover:bg-neutral-800">
+              <Download size={18} /> Download All
             </button>
 
-            <button className="flex items-center gap-1.5 px-2 py-1 border-2 border-red-400/40 rounded-lg cursor-pointer text-red-400  transition-all ease duration-200 text-sm font-semibold hover:border-red-400 hover:text-red-600">
+            <button
+              className="flex items-center gap-1 px-2 py-1 border-2 border-neutral-400/40 rounded-lg cursor-pointer text-neutral-500  transition-all ease duration-200 text-sm font-semibold hover:border-neutral-400/80 hover:text-neutral-600"
+            >
+              <Folders size={18}/> Convert to collection
+            </button>
+
+            <button className="flex items-center gap-1.5 px-2 py-1 border-2 border-red-400 rounded-lg cursor-pointer text-red-500  transition-all ease duration-200 text-sm font-semibold hover:bg-red-100 hover:text-red-700">
               <Trash2 size={18} /> Clear
             </button>
           </div>

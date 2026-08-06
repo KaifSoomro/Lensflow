@@ -71,7 +71,7 @@ const ImageCard = ({ value, isBookmarked }) => {
     },
     onSuccess: (data) => {
       toast.success(data?.message);
-      
+
       queryClient.invalidateQueries({
         queryKey: ["getBookmarks"],
       });
