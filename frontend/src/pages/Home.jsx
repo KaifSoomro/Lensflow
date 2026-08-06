@@ -51,7 +51,7 @@ const Home = () => {
           <ContributeCardButton />
         </div>
       )}
-      <div className="mt-10 columns-3 gap-7">
+      <div className="mt-10 columns-1 md:columns-3 gap-5.5">
         {isLoading && <ImageCardSkeleton />}
         {Array.isArray(data) &&
           data.map((value) => (

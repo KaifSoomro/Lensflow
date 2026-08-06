@@ -89,7 +89,7 @@ const ImageCard = ({ value, isBookmarked }) => {
   return (
     <div
       onClick={handleCard}
-      className="group relative mb-7 block w-full overflow-hidden cursor-zoom-in break-inside-avoid border border-neutral-300"
+      className="group relative mb-5.5 block w-full overflow-hidden cursor-zoom-in break-inside-avoid border border-neutral-300"
     >
       <img
         src={value?.cardImage}
