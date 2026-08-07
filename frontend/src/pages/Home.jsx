@@ -56,9 +56,9 @@ const Home = () => {
         {Array.isArray(data) &&
           data.map((value) => (
             <ImageCard
-              key={value._id}
+              key={value?._id}
               value={value}
-              isBookmarked={bookmarkedIds.has(value._id)}
+              isBookmarked={bookmarkedIds.has(value?._id)}
             />
           ))}
       </div>
