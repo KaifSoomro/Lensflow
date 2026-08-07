@@ -1,9 +1,18 @@
-import React from 'react'
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import getProfileContent from "../utils/getProfileContent.js";
 
 const ProfileIllustrationsPage = () => {
-  return (
-    <div>ProfileIllustrationsPage</div>
-  )
-}
+  const photoType = "illustration";
+  const token = localStorage.getItem("token");
 
-export default ProfileIllustrationsPage
+  const { data, isLoading } = useQuery({
+    queryKey: ["dynamic-profile-content", photoType],
+    queryFn: () => getProfileContent(photoType, token),
+  });
+
+  console.log(data && data);
+  return <div>ProfileIllustrationsPage: {photoType}</div>;
+};
+
+export default ProfileIllustrationsPage;

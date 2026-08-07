@@ -27,6 +27,48 @@ export const getProfile = async (req, res) => {
   }
 };
 
+export const getProfileContent = async (req, res) => {
+  try {
+    const { photoType } = req.params;
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    const content = await Photo.find({ user: user._id }).populate("user", "-password");
+    if (!content) {
+      return res.status(400).json({
+        success: false,
+        message: "User didn't posted yet.",
+      });
+    }
+
+    const categoriedContent = content.filter((c) => c.type === photoType);
+
+    if (categoriedContent.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: `Didn't posted ${photoType} yet.`
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      content: categoriedContent,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Internal server error in getProfileContent.",
+    });
+  }
+};
+
 export const toggleBookmark = async (req, res) => {
   try {
     const { photoId } = req.body;
@@ -92,7 +134,7 @@ export const getBookmarks = async (req, res) => {
 
     if (user.bookmarks.length === 0) {
       return res.status(200).json({
-        bookmarks: user.bookmarks
+        bookmarks: user.bookmarks,
       });
     }
 
@@ -129,11 +171,11 @@ export const clearBookmarks = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
 
-    if(!user){
+    if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User not found."
-      })
+        message: "User not found.",
+      });
     }
 
     user.bookmarks = [];
@@ -141,13 +183,13 @@ export const clearBookmarks = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Bookmarks cleared successfully."
-    })
+      message: "Bookmarks cleared successfully.",
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
       error: error.message,
-      message: "Internal server error in clearBookmarks."
-    })
+      message: "Internal server error in clearBookmarks.",
+    });
   }
-}
+};
