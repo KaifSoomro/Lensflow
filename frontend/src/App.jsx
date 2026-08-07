@@ -16,6 +16,9 @@ import ProtectRoutes from "./components/common/ProtectRoutes";
 import CategoryPage from "./pages/CategoryPage";
 import SubmitPhoto from "./pages/SubmitPhoto";
 import SinglePhoto from "./pages/SinglePhoto";
+import ProfilePhotoPage from "./pages/ProfilePhotoPage";
+import ProfileIllustrationsPage from "./pages/ProfileIllustrationsPage";
+import ProfileCollectionsPage from "./pages/ProfileCollectionsPage";
 
 const App = () => {
   return (
@@ -30,7 +33,11 @@ const App = () => {
             <Route path="/collections" element={<Collections />} />
             <Route path="/download-history" element={<DownloadHistory />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
-            <Route path="/profile/:userId" element={<Profile />} />
+            <Route path="/profile/:userId" element={<Profile />}>
+              <Route index element={<ProfilePhotoPage />} />
+              <Route path="illustrations" element={<ProfileIllustrationsPage />} />
+              <Route path="collections" element={<ProfileCollectionsPage />} />
+            </Route>
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/submit-photo" element={<SubmitPhoto />} />
           </Route>

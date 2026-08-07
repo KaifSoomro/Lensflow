@@ -3,6 +3,7 @@ import ProfileInfo from '../components/profile/ProfileInfo'
 import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import ProfileInfoSkeleton from '../components/profile/ProfileInfoSkeleton'
+import { Outlet } from 'react-router-dom'
 
 const Profile = () => {
   const { user } = useSelector(state => state.user); 
@@ -37,6 +38,7 @@ const Profile = () => {
   return (
     <div>
       { isLoading ? <ProfileInfoSkeleton /> : <ProfileInfo data={data}/> }
+      <Outlet />
     </div>
   )
 }
