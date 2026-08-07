@@ -1,14 +1,17 @@
 import React from "react";
 import { GoBookmarkSlash } from "react-icons/go";
 import { IoBookmarkSharp } from "react-icons/io5";
-import { Bookmark, Download, Folders, Trash2 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { Bookmark, Download, Folders, Loader2, Trash2 } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton";
 import ImageCard from "../components/common/ImageCard";
 import { HiLockClosed } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 const Bookmarks = () => {
   const token = localStorage.getItem("token");
+  const queryClient = useQueryClient();
+
   const { data = [], isLoading } = useQuery({
     queryKey: ["getBookmarks"],
     queryFn: async () => {
@@ -36,7 +39,34 @@ const Bookmarks = () => {
     },
   });
 
-  console.log(data);
+  const { mutate: clearBookmarks, isPending } = useMutation({
+    mutationFn: async() => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/delete/bookmarks`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+
+        const data = await response.json();
+
+        if(!response.ok){
+          throw new Error(data.message);
+        }
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (data) => {
+      toast.success(data.message)
+      queryClient.invalidateQueries({
+        queryKey: ["getBookmarks"]
+      })
+    }
+  })
 
   return (
     <div className="max-w-7xl mx-auto my-6">
@@ -57,8 +87,10 @@ const Bookmarks = () => {
               <Folders size={18}/> Convert to collection
             </button>
 
-            <button className="flex items-center gap-1.5 px-2 py-1 border-2 border-red-400 rounded-lg cursor-pointer text-red-500  transition-all ease duration-200 text-sm font-semibold hover:bg-red-100 hover:text-red-700">
-              <Trash2 size={18} /> Clear
+            <button onClick={()=>clearBookmarks()} className="flex items-center gap-1.5 px-2 py-1 border-2 border-red-400 rounded-lg cursor-pointer text-red-500  transition-all ease duration-200 text-sm font-semibold hover:bg-red-100 hover:text-red-700">
+              {
+                isPending ? <Loader2 size={18} className="animate-spin duration-200 transition-all ease"/> : <> <Trash2 size={18} /> Clear </> 
+              }
             </button>
           </div>
         ) : (
