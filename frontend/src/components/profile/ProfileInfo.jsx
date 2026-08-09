@@ -3,7 +3,7 @@ import Image from "../../assets/images/profile.webp";
 import { Link, useLocation } from "react-router-dom";
 import { Folders, ImageIcon, Pencil, PenTool, XCircle } from "lucide-react";
 
-const ProfileInfo = ({ data }) => {
+const ProfileInfo = ({ data, photos }) => {
   const firstName = data?.fullName.split(" ")[0];
   const location = useLocation();
   return (
@@ -47,21 +47,21 @@ const ProfileInfo = ({ data }) => {
           to={`/profile/${data?._id}`}
           className={`flex items-center gap-2 cursor-pointer capitalize mx-2 font-semibold text-sm ${location.pathname === `${`/profile/${data?._id}`}` ? "py-4 px-2 border-b-2 border-neutral-900" : "text-neutral-500 hover:text-neutral-900  py-4 px-2 transition-all ease duration-200"}`}
         >
-          <ImageIcon size={18}/> Photos
+          <ImageIcon size={18}/> Photos {photos?.photos}
         </Link>
 
         <Link
           to={`/profile/${data?._id}/illustrations`}
           className={`flex items-center gap-2 cursor-pointer capitalize mx-2 font-semibold text-sm ${location.pathname === `${`/profile/${data?._id}/illustrations`}` ? "py-4 px-2 border-b-2 border-neutral-900" : "text-neutral-500 hover:text-neutral-900  py-4 px-2 transition-all ease duration-200"}`}
         >
-          <PenTool size={18}/> Illustrations
+          <PenTool size={18}/> Illustrations { photos?.illustrations }
         </Link>
 
         <Link
           to={`/profile/${data?._id}/collections`}
           className={`flex items-center gap-2 cursor-pointer capitalize mx-2 font-semibold text-sm ${location.pathname === `${`/profile/${data?._id}/collections`}` ? "py-4 px-2 border-b-2 border-neutral-900" : "text-neutral-500 hover:text-neutral-900  py-4 px-2 transition-all ease duration-200"}`}
         >
-          <Folders size={18}/> Collections
+          <Folders size={18}/> Collections { photos?.collections }
         </Link>
       </div>
     </>

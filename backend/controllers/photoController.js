@@ -1,10 +1,18 @@
 import { v2 as cloudinary } from "cloudinary";
 import streamifier from "streamifier";
 import Photo from "../models/photoModel.js";
+import User from "../models/userModel.js";
 
 export const uploadPhoto = async (req, res) => {
   try {
     const { description, tags, type, category, orientation } = req.body;
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
 
     if (!req.file) {
       return res.status(400).json({
@@ -120,7 +128,10 @@ export const getSinglePhoto = async (req, res) => {
   try {
     const { photoId } = req.params;
 
-    const photo = await Photo.findById({_id: photoId}).populate("user", "-password");
+    const photo = await Photo.findById({ _id: photoId }).populate(
+      "user",
+      "-password",
+    );
 
     if (!photo) {
       return res.status(404).json({
@@ -141,16 +152,16 @@ export const getSinglePhoto = async (req, res) => {
   }
 };
 
-export const addViews = async(req, res) => {
+export const addViews = async (req, res) => {
   try {
     const { photoId } = req.params;
 
-    let photo = await Photo.findById({_id:photoId});
+    let photo = await Photo.findById({ _id: photoId });
 
-    if(!photo){
+    if (!photo) {
       return res.status(404).json({
         success: false,
-        message: "Photo not found"
+        message: "Photo not found",
       });
     }
 
@@ -159,12 +170,12 @@ export const addViews = async(req, res) => {
     await photo.save();
 
     return res.status(200).json({
-      success: true
-    })
+      success: true,
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
-}
+};

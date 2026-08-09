@@ -6,6 +6,7 @@ import {
   getProfile,
   clearBookmarks,
   getProfileContent,
+  getProfilePhotoCounts,
 } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -13,6 +14,7 @@ const router = express.Router();
 
 router.get("/profile/:userId", protectRoute, getProfile);
 router.get("/profile/content/:photoType", protectRoute, getProfileContent);
+router.get("/profile/photos/counts", protectRoute, getProfilePhotoCounts);
 router.post("/toggle/bookmark", protectRoute, toggleBookmark);
 router.get("/get/bookmarks", protectRoute, getBookmarks);
 router.get("/get/bookmarksId", protectRoute, getBookmarkIds);

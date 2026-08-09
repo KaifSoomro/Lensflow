@@ -39,7 +39,10 @@ export const getProfileContent = async (req, res) => {
       });
     }
 
-    const content = await Photo.find({ user: user._id }).populate("user", "-password");
+    const content = await Photo.find({ user: user._id }).populate(
+      "user",
+      "-password",
+    );
     if (!content) {
       return res.status(400).json({
         success: false,
@@ -52,7 +55,7 @@ export const getProfileContent = async (req, res) => {
     if (categoriedContent.length === 0) {
       return res.status(404).json({
         success: false,
-        message: `Didn't posted ${photoType} yet.`
+        message: `Didn't posted ${photoType} yet.`,
       });
     }
 
@@ -65,6 +68,35 @@ export const getProfileContent = async (req, res) => {
       success: false,
       error: error.message,
       message: "Internal server error in getProfileContent.",
+    });
+  }
+};
+
+export const getProfilePhotoCounts = async (req, res) => {
+  try {
+    const photos = await Photo.find({ user: req.user._id });
+
+    if (!photos) {
+      return res.status(404).json({
+        success: false,
+        message: "No photos found.",
+      });
+    }
+
+    const realPhotos = photos.filter(p => p.type === "photo");
+    const illustration = photos.filter(p => p.type === "illustration");
+
+    return res.status(200).json({
+      success: true,
+      photos: realPhotos.length,
+      illustrations: illustration.length,
+      collections: 0 // coolections will be added from collections schema
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Internal server error in getProfilePhotoCounts.",
     });
   }
 };
