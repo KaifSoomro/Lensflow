@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import getProfileContent from "../utils/getProfileContent";
 import ImageCard from "../components/common/ImageCard";
-import { fetchBookmarkIds } from "../utils/getBookmarks";
+import fetchBookmarkIds from "../utils/getBookmarks";
 
 const ProfilePhotoPage = () => {
   const photoType = "photo";
@@ -10,7 +9,29 @@ const ProfilePhotoPage = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: ["dynamic-profile-content", photoType],
-    queryFn: () => getProfileContent(photoType, token),
+    queryFn: async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/profile/content/${photoType}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
+        return data?.content;
+      } catch (error) {
+        throw error;
+      }
+    },
   });
 
   const { data: bookmarks } = useQuery({

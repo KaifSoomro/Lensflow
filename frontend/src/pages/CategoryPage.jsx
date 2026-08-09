@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import ImageCard from "../components/common/ImageCard.jsx";
 import LaptopImage from "../assets/images/laptop.png";
-import fetchBookmarkIds from "../utils/getProfileContent.js";
+import fetchBookmarkIds from "../utils/getBookmarks.js";
 
 const CategoryPage = () => {
   const { paragraph } = useSelector((state) => state.dynamicRoute);

@@ -7,7 +7,7 @@ import ImageTwo from "../assets/images/mock_2.jpg";
 import ImageThree from "../assets/images/mock_3.jpg";
 import { useQuery } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
-import { fetchBookmarkIds } from "../utils/getBookmarks.js";
+import fetchBookmarkIds from "../utils/getBookmarks.js";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);

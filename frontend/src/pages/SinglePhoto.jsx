@@ -16,7 +16,7 @@ import "react-medium-image-zoom/dist/styles.css";
 import { toast } from "react-hot-toast";
 import useFormatDate from "../utils/useFormatDate.js";
 import { useSelector } from "react-redux";
-import { fetchBookmarkIds } from "../utils/getBookmarks.js";
+import fetchBookmarkIds from "../utils/getBookmarks.js";
 import SinglePhotoSkeleton from "../components/singlephoto/SinglePhotoSkeleton.jsx";
 
 const SinglePhoto = () => {

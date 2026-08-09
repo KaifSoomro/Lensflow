@@ -1,6 +1,6 @@
 const token = localStorage.getItem("token");
 
-export const fetchBookmarkIds = async () => {
+const fetchBookmarkIds = async () => {
   const res = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/user/get/bookmarksId`,
     {
@@ -18,3 +18,5 @@ export const fetchBookmarkIds = async () => {
 
   return data.bookmarksId;
 };
+
+export default fetchBookmarkIds;
