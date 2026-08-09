@@ -54,9 +54,9 @@ const Home = () => {
       <div className="mt-10 columns-1 md:columns-3 gap-5.5">
         {isLoading && <ImageCardSkeleton />}
         {Array.isArray(data) &&
-          data.map((value) => (
+          data.map((value, index) => (
             <ImageCard
-              key={value?._id}
+              key={index}
               value={value}
               isBookmarked={bookmarkedIds.has(value?._id)}
             />

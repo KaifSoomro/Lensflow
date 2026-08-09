@@ -24,9 +24,9 @@ const ProfilePhotoPage = () => {
   return (
     <div className="max-w-7xl mx-auto columns-3 gap-5.5 mt-15">
       {Array.isArray(data) &&
-        data.map((value) => (
+        data.map((value, index) => (
           <ImageCard
-            key={value?._id}
+            key={index}
             value={value}
             isBookmarked={bookmarkedIds.has(value?._id)}
           />

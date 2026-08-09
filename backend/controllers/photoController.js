@@ -7,13 +7,6 @@ export const uploadPhoto = async (req, res) => {
   try {
     const { description, tags, type, category, orientation } = req.body;
 
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found.",
-      });
-    }
-
     if (!req.file) {
       return res.status(400).json({
         success: false,
@@ -171,6 +164,33 @@ export const addViews = async (req, res) => {
 
     return res.status(200).json({
       success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getPhotosByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const photos = await Photo.find({ category }).populate({
+      path: "user",
+      select: "-password"
+    })
+
+    if (!photos) {
+      return res.status(404).json({
+        success: false,
+        message: "No photos found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      photos,
     });
   } catch (error) {
     return res.status(500).json({

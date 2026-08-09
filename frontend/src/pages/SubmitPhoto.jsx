@@ -78,6 +78,8 @@ const SubmitPhoto = () => {
       form.append("description", data.description);
       form.append("type", data.type);
       form.append("tags", JSON.stringify(data.tags));
+      form.append("category", data.category);
+      form.append("orientation", data.orientation);
 
       const res = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/photo/upload`,
