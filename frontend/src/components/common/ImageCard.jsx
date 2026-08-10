@@ -1,14 +1,17 @@
 import { Check, Plus, Bookmark, ArrowDown, Loader2 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import userImage from "../../assets/images/profile.webp";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setShowDialog } from "../../features/collectionSlice.js";
 
 const ImageCard = ({ value, isBookmarked }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
 
   const { mutate: addPhotoView } = useMutation({
     mutationFn: async (photoId) => {
@@ -86,6 +89,12 @@ const ImageCard = ({ value, isBookmarked }) => {
     e.stopPropagation();
     toggleBookmark(value?._id);
   };
+
+  const OpenCollectionDialog = (e) => {
+    e.stopPropagation();
+    dispatch(setShowDialog(true));
+  };
+
   return (
     <div
       onClick={handleCard}
@@ -116,6 +125,7 @@ const ImageCard = ({ value, isBookmarked }) => {
 
           <button
             title="Add to Collection"
+            onClick={OpenCollectionDialog}
             className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200"
           >
             <Plus size={21} />

@@ -44,11 +44,17 @@ const Illustrations = () => {
     <div className="max-w-7xl mx-auto">
       {user && (
         <div className="mt-8">
-          <ContributeCardButton type={"illustration"}/>
+          <ContributeCardButton type={"illustration"} />
         </div>
       )}
       <div className="mt-10 columns-1 md:columns-3 gap-5.5">
-        {isLoading && <ImageCardSkeleton />}
+        {isLoading && (
+          <>
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+          </>
+        )}
         {Array.isArray(data) &&
           data.map((value, index) => (
             <ImageCard

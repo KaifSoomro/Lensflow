@@ -8,10 +8,13 @@ import ImageThree from "../assets/images/mock_3.jpg";
 import { useQuery } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
 import fetchBookmarkIds from "../utils/getBookmarks.js";
+import CollectionBox from "../components/common/CollectionBox.jsx";
+import { setShowDialog } from "../features/collectionSlice.js";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
   const token = localStorage.getItem("token");
+  const { showDialog } = useSelector((state) => state.collection);
 
   const { data, isLoading } = useQuery({
     queryKey: ["homeData"],
@@ -39,7 +42,7 @@ const Home = () => {
 
   const { data: bookmarks } = useQuery({
     queryKey: ["bookmarkIds"],
-    queryFn: fetchBookmarkIds
+    queryFn: fetchBookmarkIds,
   });
 
   const bookmarkedIds = new Set(bookmarks || []);
@@ -48,11 +51,23 @@ const Home = () => {
     <div className="max-w-7xl mx-auto">
       {user && (
         <div className="mt-8">
-          <ContributeCardButton type={"photo"}/>
+          <ContributeCardButton type={"photo"} />
         </div>
       )}
-      <div className="mt-10 columns-1 md:columns-3 gap-5.5">
-        {isLoading && <ImageCardSkeleton />}
+      <div className="relative mt-10 columns-1 md:columns-3 gap-5.5">
+        {showDialog && (
+          <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-black/20 backdrop-blur-xs">
+            <CollectionBox />
+          </div>
+        )}
+
+        {isLoading && (
+          <>
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+          </>
+        )}
         {Array.isArray(data) &&
           data.map((value, index) => (
             <ImageCard

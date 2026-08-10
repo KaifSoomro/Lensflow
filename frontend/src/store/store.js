@@ -1,5 +1,6 @@
 import userReducer from "../features/userSlice.js";
-import dynamicRouteReducer from "../features/dynamicRouteSlice.js"
+import dynamicRouteReducer from "../features/dynamicRouteSlice.js";
+import collectionReducer from "../features/collectionSlice.js";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistReducer,
@@ -11,7 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import storageImport from "redux-persist/lib/storage"; 
+import storageImport from "redux-persist/lib/storage";
 const storage = storageImport.default || storageImport;
 
 const persistConfig = {
@@ -22,7 +23,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  dynamicRoute: dynamicRouteReducer
+  dynamicRoute: dynamicRouteReducer,
+  collection: collectionReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -35,6 +37,6 @@ const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-})
+});
 
 export default store;
