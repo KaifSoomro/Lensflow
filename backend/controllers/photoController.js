@@ -117,6 +117,32 @@ export const getAllPhotos = async (req, res) => {
   }
 };
 
+export const getAllIllustrations = async (req, res) => {
+  try {
+    const illustrations = await Photo.find({ type: "illustration" }).populate({
+      path: "user",
+      select: "-password",
+    });
+
+    if (!illustrations) {
+      return res.status(404).json({
+        success: false,
+        message: "No illustrations found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      illustrations
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getSinglePhoto = async (req, res) => {
   try {
     const { photoId } = req.params;
@@ -178,8 +204,8 @@ export const getPhotosByCategory = async (req, res) => {
     const { category } = req.params;
     const photos = await Photo.find({ category }).populate({
       path: "user",
-      select: "-password"
-    })
+      select: "-password",
+    });
 
     if (!photos) {
       return res.status(404).json({

@@ -48,7 +48,7 @@ const Home = () => {
     <div className="max-w-7xl mx-auto">
       {user && (
         <div className="mt-8">
-          <ContributeCardButton />
+          <ContributeCardButton type={"photo"}/>
         </div>
       )}
       <div className="mt-10 columns-1 md:columns-3 gap-5.5">

@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import ImageCard from "../components/common/ImageCard.jsx";
 import LaptopImage from "../assets/images/laptop.png";
 import fetchBookmarkIds from "../utils/getBookmarks.js";
+import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
 
 const CategoryPage = () => {
   const { paragraph } = useSelector((state) => state.dynamicRoute);
@@ -40,7 +41,7 @@ const CategoryPage = () => {
 
   const { data: bookmarks } = useQuery({
     queryKey: ["bookmarkIds"],
-    queryFn: fetchBookmarkIds
+    queryFn: fetchBookmarkIds,
   });
 
   const bookmarkedIds = new Set(bookmarks || []);
@@ -73,14 +74,23 @@ const CategoryPage = () => {
             ))}
         </div>
       ) : (
-        <div className="w-full flex items-center justify-center mt-20">
-          <div className="flex flex-col items-center justify-center">
-            <img src={LaptopImage} alt="laptop-img" className="w-75"/>
-            <h1 className="capitalize text-lg">
-              {" "}
-              {newCategoryName} not found.{" "}
-            </h1>
-          </div>
+        <div className="w-full flex items-center justify-center mt-20 gap-5.5">
+          {isLoading ? (
+            <>
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center">
+              <img src={LaptopImage} alt="laptop-img" className="w-75" />
+              <h1 className="capitalize text-lg">
+                {" "}
+                <span className="font-semibold">{newCategoryName}</span> not
+                found.{" "}
+              </h1>
+            </div>
+          )}
         </div>
       )}
     </div>
