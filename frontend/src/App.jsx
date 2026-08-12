@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./layouts/Layout";
 import Illustrations from "./pages/illustrations";
-import Collections from "./pages/Collections";
 import DownloadHistory from "./pages/DownloadHistory";
 import Bookmarks from "./pages/Bookmarks";
 import Login from "./pages/Login";
@@ -30,7 +29,6 @@ const App = () => {
           <Route path="/t/:category" element={<CategoryPage />} />
           <Route path="/photo/:photoId" element={<SinglePhoto />} />
           <Route element={<ProtectRoutes />}>
-            <Route path="/collections" element={<Collections />} />
             <Route path="/download-history" element={<DownloadHistory />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/profile/:userId" element={<Profile />}>

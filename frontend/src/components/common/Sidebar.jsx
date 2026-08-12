@@ -76,7 +76,7 @@ const Sidebar = () => {
       <div className="flex items-center flex-col border-b border-neutral-400/40 gap-3 mt-6 pb-6">
         <NavLink
           title="Collections"
-          to="/collections"
+          to={`/profile/${userId}/collections`}
           className={({ isActive }) =>
             `${isActive ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2 transition-all ease duration-200"}`
           }

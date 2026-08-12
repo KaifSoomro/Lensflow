@@ -17,6 +17,11 @@ const collectionSchema = new mongoose.Schema(
         ref: "Photo",
       },
     ],
+    private: {
+      type: Boolean,
+      enum: [true, false],
+      default: true
+    }
   },
   {
     timestamps: true,
