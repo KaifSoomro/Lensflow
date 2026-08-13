@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import Photo from "../models/photoModel.js";
+import Collection from "../models/collectionModel.js";
 
 export const getProfile = async (req, res) => {
   try {
@@ -225,3 +226,44 @@ export const clearBookmarks = async (req, res) => {
     });
   }
 };
+
+export const createCollection = async (req, res) => {
+  try {
+    const { collectionName, photoId, isPrivate } = req.body;
+    const userId = req.user._id;
+
+    if(!collectionName){
+      return res.status(400).json({
+        success: false,
+        message: "Collection name is required."
+      })
+    }
+
+    await Collection.create({
+      user: userId,
+      collectionName,
+      photos: [photoId],
+      private: isPrivate
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Collection created successfully."
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Internal server error in createCollection.",
+    });
+  }
+}
+
+export const getCollections = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}

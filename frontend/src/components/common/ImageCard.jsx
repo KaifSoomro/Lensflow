@@ -5,7 +5,7 @@ import userImage from "../../assets/images/profile.webp";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setShowDialog } from "../../features/collectionSlice.js";
+import { setPhotoId, setShowDialog } from "../../features/collectionSlice.js";
 
 const ImageCard = ({ value, isBookmarked }) => {
   const navigate = useNavigate();
@@ -93,6 +93,7 @@ const ImageCard = ({ value, isBookmarked }) => {
   const OpenCollectionDialog = (e) => {
     e.stopPropagation();
     dispatch(setShowDialog(true));
+    dispatch(setPhotoId(value?._id));
   };
 
   return (
