@@ -84,15 +84,15 @@ export const getProfilePhotoCounts = async (req, res) => {
       });
     }
 
-    const realPhotos = photos.filter(p => p.type === "photo");
-    const illustration = photos.filter(p => p.type === "illustration");
+    const realPhotos = photos.filter((p) => p.type === "photo");
+    const illustration = photos.filter((p) => p.type === "illustration");
 
     return res.status(200).json({
       success: true,
       photos: realPhotos.length,
       illustrations: illustration.length,
-      collections: 0 // coolections will be added from collections schema
-    })
+      collections: 0, // coolections will be added from collections schema
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -232,25 +232,24 @@ export const createCollection = async (req, res) => {
     const { collectionName, photoId, isPrivate } = req.body;
     const userId = req.user._id;
 
-    if(!collectionName){
+    if (!collectionName) {
       return res.status(400).json({
         success: false,
-        message: "Collection name is required."
-      })
+        message: "Collection name is required.",
+      });
     }
 
     await Collection.create({
       user: userId,
       collectionName,
       photos: [photoId],
-      private: isPrivate
+      private: isPrivate,
     });
 
     return res.status(201).json({
       success: true,
-      message: "Collection created successfully."
+      message: "Collection created successfully.",
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -258,12 +257,28 @@ export const createCollection = async (req, res) => {
       message: "Internal server error in createCollection.",
     });
   }
-}
+};
 
 export const getCollections = async (req, res) => {
   try {
-    
+    const collections = await Collection.find().populate("photos");
+
+    if (!collections) {
+      return res.status(404).json({
+        success: false,
+        message: "No collections found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      collections
+    });
   } catch (error) {
-    
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Internal server error in getCollections.",
+    });
   }
-}
+};

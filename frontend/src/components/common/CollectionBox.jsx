@@ -9,8 +9,9 @@ import Image from "../../assets/images/illustration.jpg";
 import { BsLockFill } from "react-icons/bs";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import CollectionCard from "./CollectionCard";
 
 const CollectionBox = () => {
   const dispatch = useDispatch();
@@ -66,13 +67,42 @@ const CollectionBox = () => {
     },
     onError: (error) => {
       toast.error(error.message);
-    }
+    },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     createNewCollection();
   };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["collectionData"],
+    queryFn: async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/collection/getAll`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Something went wrong.");
+        }
+
+        return data?.collections;
+      } catch (error) {
+        throw error;
+      }
+    },
+  });
+
+  console.log(data);
 
   return (
     <>
@@ -165,25 +195,13 @@ const CollectionBox = () => {
             <div className="flex items-center justify-start">
               <h1 className="text-md text-neutral-500 mt-3 px-3">A-Z</h1>
             </div>
-            <button className="mt-5 w-full flex items-center justify-between hover:bg-neutral-100 px-3 py-2 rounded-md group cursor-pointer">
-              <div className="flex items-center gap-5">
-                <img
-                  src={Image}
-                  alt="collection-img-01"
-                  className="w-20 rounded"
+            {Array.isArray(data) &&
+              data.map((collection, index) => (
+                <CollectionCard
+                  key={index}
+                  collection={collection}
                 />
-                <div>
-                  <h1 className="text-lg font-semibold">My first collection</h1>
-                  <span className="flex items-center gap-2 mt-1.5 text-neutral-500">
-                    {" "}
-                    <BsLockFill /> 1 image{" "}
-                  </span>
-                </div>
-              </div>
-              <div className="hidden group-hover:block">
-                <BsPlusCircleFill size={25} />
-              </div>
-            </button>
+              ))}
           </div>
           <div className="absolute bottom-0 w-full border-t border-neutral-400 p-3">
             <button

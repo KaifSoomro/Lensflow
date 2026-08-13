@@ -8,6 +8,7 @@ import {
   getProfileContent,
   getProfilePhotoCounts,
   createCollection,
+  getCollections,
 } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -21,5 +22,6 @@ router.get("/get/bookmarks", protectRoute, getBookmarks);
 router.get("/get/bookmarksId", protectRoute, getBookmarkIds);
 router.delete("/delete/bookmarks", protectRoute, clearBookmarks);
 router.post("/collection/create", protectRoute, createCollection);
+router.get("/collection/getAll", protectRoute, getCollections);
 
 export default router;
