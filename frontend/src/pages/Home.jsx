@@ -8,6 +8,7 @@ import ImageThree from "../assets/images/mock_3.jpg";
 import { useQuery } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
 import fetchBookmarkIds from "../utils/getBookmarks.js";
+import fetchCollectionPhotoIds from "../utils/getCollectionPhotoIds.js";
 import CollectionBox from "../components/common/CollectionBox.jsx";
 import { setShowDialog } from "../features/collectionSlice.js";
 
@@ -45,7 +46,15 @@ const Home = () => {
     queryFn: fetchBookmarkIds,
   });
 
+  const { data: collections } = useQuery({
+    queryKey: ["collectionPhotoIds"],
+    queryFn: fetchCollectionPhotoIds,
+  });
+
+  console.log("collectionIds: ", collections)
+
   const bookmarkedIds = new Set(bookmarks || []);
+  const collectionPhotoIds = new Set(collections || []);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -74,6 +83,7 @@ const Home = () => {
               key={index}
               value={value}
               isBookmarked={bookmarkedIds.has(value?._id)}
+              isCollection={collectionPhotoIds.has(value?._id)}
             />
           ))}
       </div>

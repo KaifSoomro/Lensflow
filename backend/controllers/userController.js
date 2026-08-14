@@ -76,6 +76,7 @@ export const getProfileContent = async (req, res) => {
 export const getProfilePhotoCounts = async (req, res) => {
   try {
     const photos = await Photo.find({ user: req.user._id });
+    const collections = await Collection.find();
 
     if (!photos) {
       return res.status(404).json({
@@ -91,7 +92,7 @@ export const getProfilePhotoCounts = async (req, res) => {
       success: true,
       photos: realPhotos.length,
       illustrations: illustration.length,
-      collections: 0, // coolections will be added from collections schema
+      collections: collections.length,
     });
   } catch (error) {
     return res.status(500).json({
@@ -262,7 +263,9 @@ export const createCollection = async (req, res) => {
 export const getCollections = async (req, res) => {
   try {
     const userId = req.user._id;
-    const collections = await Collection.find({ user: userId }).populate("photos");
+    const collections = await Collection.find({ user: userId }).populate(
+      "photos",
+    );
 
     if (!collections) {
       return res.status(404).json({
@@ -273,13 +276,42 @@ export const getCollections = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      collections
+      collections,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       error: error.message,
       message: "Internal server error in getCollections.",
+    });
+  }
+};
+
+export const getCollectionPhotoIds = async (req, res) => {
+  try {
+    const collections = await Collection.find({ user: req.user._id })
+      .select("photos")
+      .lean();
+
+    if (!collections) {
+      return res.status(404).json({
+        success: false,
+        message: "Collections not found.",
+      });
+    }
+
+    const collectionPhotoIds = collections.flatMap(
+      (collection) => collection.photos,
+    );
+
+    return res.status(200).json({
+      success: true,
+      collectionPhotoIds,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

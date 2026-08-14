@@ -5,8 +5,9 @@ const ProfileCollectionCard = ({ collection }) => {
   return (
     <Link
       to={`/profile/${collection?.user}/collections/${collection?._id}`}
-      className="w-110 h-75 rounded-xl grid grid-cols-2 gap-0.5"
+      className="w-110 h-75 rounded-xl grid grid-cols-2 gap-0.5 relative"
     >
+      <div className="absolute top-0 left-0 z-20 w-full h-full hover:bg-white/8 transition-all ease"></div>
       <div className="w-full h-full rounded-l-xl overflow-hidden bg-neutral-200">
         {collection?.photos[0]?.cardImage && (
           <img

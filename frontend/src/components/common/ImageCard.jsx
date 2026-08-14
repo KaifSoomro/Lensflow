@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setPhotoId, setShowDialog } from "../../features/collectionSlice.js";
 
-const ImageCard = ({ value, isBookmarked }) => {
+const ImageCard = ({ value, isBookmarked, isCollection }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = localStorage.getItem("token");
@@ -125,9 +125,9 @@ const ImageCard = ({ value, isBookmarked }) => {
           </button>
 
           <button
-            title="Add to Collection"
+            title={isCollection ? "Already in Collection" : "Add to Collection"}
             onClick={OpenCollectionDialog}
-            className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200"
+            className={`${isCollection ? "bg-blue-500 text-white hover:bg-blue-600" : "bg-neutral-300 text-neutral-600 hover:text-neutral-900"} rounded-md px-3 py-2 cursor-pointer  transition-all ease duration-200`}
           >
             <Plus size={21} />
           </button>
