@@ -31,6 +31,12 @@ const CollectionBox = () => {
   const length = Number(collectionData.collectionName.length);
   const max = 60 - length;
 
+  const handleNameInput = (e) => {
+    if(length <= 60){
+      setName(e.target.value);
+    }
+  }
+
   const closeCollectionDialog = () => {
     dispatch(setShowDialog(false));
   };
@@ -124,26 +130,31 @@ const CollectionBox = () => {
                 <label htmlFor="name" className="text-lg text-neutral-600">
                   Name
                 </label>
-                <div className="flex items-center justify-between border border-neutral-500 rounded-xl py-2 px-2 mt-2.5">
+                <div
+                  className={`flex items-center justify-between border border-neutral-500 rounded-xl py-2 px-2 mt-2.5`}
+                >
                   <input
                     type="text"
                     className="border-none outline-none w-80"
                     placeholder="Beautiful photos"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    maxLength={60}
+                    onChange={handleNameInput}
                   />
                   <p className="text-neutral-500">{max}</p>
                 </div>
-                <div className="flex items-center gap-1.5 mt-5">
-                  <input
-                    type="checkbox"
-                    value={private_value}
-                    onChange={(e) => setPrivateValue(e.target.checked)}
-                    checked={private_value}
-                  />
-                  <span className="flex items-center gap-1.5">
-                    Private <BsLockFill />
-                  </span>
+                <div className="flex items-center justify-between mt-5">
+                  <div className="flex items-center gap-1.5">
+                    <input
+                      type="checkbox"
+                      value={private_value}
+                      onChange={(e) => setPrivateValue(e.target.checked)}
+                      checked={private_value}
+                    />
+                    <span className="flex items-center gap-1.5">
+                      Private <BsLockFill />
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -200,6 +211,7 @@ const CollectionBox = () => {
                 <CollectionCard
                   key={index}
                   collection={collection}
+                  isLoading={isLoading}
                 />
               ))}
           </div>
