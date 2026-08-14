@@ -261,7 +261,8 @@ export const createCollection = async (req, res) => {
 
 export const getCollections = async (req, res) => {
   try {
-    const collections = await Collection.find().populate("photos");
+    const userId = req.user._id;
+    const collections = await Collection.find({ user: userId }).populate("photos");
 
     if (!collections) {
       return res.status(404).json({
