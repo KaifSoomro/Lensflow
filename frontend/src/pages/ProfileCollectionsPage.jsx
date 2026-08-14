@@ -35,7 +35,7 @@ const ProfileCollectionsPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="w-full grid grid-cols-3 mt-10">
+      <div className="w-full grid grid-cols-3 mt-15">
         {Array.isArray(collections) &&
           collections.map((collection, index) => (
             <ProfileCollectionCard collection={collection} />

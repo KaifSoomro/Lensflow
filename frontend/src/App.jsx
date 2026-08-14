@@ -18,6 +18,7 @@ import SinglePhoto from "./pages/SinglePhoto";
 import ProfilePhotoPage from "./pages/ProfilePhotoPage";
 import ProfileIllustrationsPage from "./pages/ProfileIllustrationsPage";
 import ProfileCollectionsPage from "./pages/ProfileCollectionsPage";
+import SingleCollection from "./pages/SingleCollection";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
               <Route path="illustrations" element={<ProfileIllustrationsPage />} />
               <Route path="collections" element={<ProfileCollectionsPage />} />
             </Route>
+             <Route path="/profile/:userId/collections/:collectionId" element={<SingleCollection />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/submit-photo" element={<SubmitPhoto />} />
           </Route>
