@@ -1,11 +1,12 @@
 import React from "react";
+import { BsLockFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const ProfileCollectionCard = ({ collection }) => {
   return (
     <Link
-      to={`/profile/${collection?.user}/collections/${collection?._id}`}
-      className="w-110 h-75 rounded-xl grid grid-cols-2 gap-0.5 relative"
+      to={`/profile/${collection?.user?._id}/collections/${collection?._id}`}
+      className="w-110 h-95 rounded-xl grid grid-cols-2 gap-0.5 relative"
     >
       <div className="absolute top-0 left-0 z-20 w-full h-full hover:bg-white/8 transition-all ease"></div>
       <div className="w-full h-full rounded-l-xl overflow-hidden bg-neutral-200">
@@ -36,6 +37,20 @@ const ProfileCollectionCard = ({ collection }) => {
             />
           )}
         </div>
+      </div>
+      <div className="w-full">
+        <h1 className="capitalize font-semibold text-lg mt-4 flex items-center gap-2">
+          {collection?.private && <BsLockFill size={11} />}{" "}
+          {collection?.collectionName}
+        </h1>
+        <h2 className="text-sm text-neutral-500 mt-1">
+          {collection?.photos.length === 1
+            ? `${collection?.photos.length} image `
+            : `${collection?.photos.length} images `}
+            <span>
+              · Curated by { collection?.user?.fullName }
+            </span>
+        </h2>
       </div>
     </Link>
   );

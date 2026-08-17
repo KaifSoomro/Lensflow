@@ -263,9 +263,10 @@ export const createCollection = async (req, res) => {
 export const getCollections = async (req, res) => {
   try {
     const userId = req.user._id;
-    const collections = await Collection.find({ user: userId }).populate(
-      "photos",
-    );
+    const collections = await Collection.find({ user: userId }).populate({
+      path: "photos user",
+      select: "-password"
+    });
 
     if (!collections) {
       return res.status(404).json({
