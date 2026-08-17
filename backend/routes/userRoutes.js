@@ -10,6 +10,7 @@ import {
   createCollection,
   getCollections,
   getCollectionPhotoIds,
+  getCollectionById,
 } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -25,5 +26,6 @@ router.delete("/delete/bookmarks", protectRoute, clearBookmarks);
 router.post("/collection/create", protectRoute, createCollection);
 router.get("/collection/getAll", protectRoute, getCollections);
 router.get("/collection/photoIds", protectRoute, getCollectionPhotoIds);
+router.get("/collection/:collectionId", protectRoute, getCollectionById);
 
 export default router;

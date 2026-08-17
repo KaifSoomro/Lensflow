@@ -265,7 +265,7 @@ export const getCollections = async (req, res) => {
     const userId = req.user._id;
     const collections = await Collection.find({ user: userId }).populate({
       path: "photos user",
-      select: "-password"
+      select: "-password",
     });
 
     if (!collections) {
@@ -308,6 +308,41 @@ export const getCollectionPhotoIds = async (req, res) => {
     return res.status(200).json({
       success: true,
       collectionPhotoIds,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getCollectionById = async (req, res) => {
+  try {
+    const { collectionId } = req.params;
+    const collection = await Collection.findById(collectionId)
+      .populate({
+        path: "user",
+        select: "-password -isVerified",
+      })
+      .populate({
+        path: "photos",
+        populate: {
+          path: "user",
+          select: "-password -isVerified",
+        },
+      });
+
+    if (!collection) {
+      return res.status(404).json({
+        success: false,
+        message: "Collections not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      collection,
     });
   } catch (error) {
     return res.status(500).json({
