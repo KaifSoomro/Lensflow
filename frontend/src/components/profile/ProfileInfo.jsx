@@ -1,7 +1,18 @@
 import React from "react";
 import Image from "../../assets/images/profile.webp";
 import { Link, useLocation } from "react-router-dom";
-import { Folders, ImageIcon, Pencil, PenTool, XCircle } from "lucide-react";
+import {
+  Earth,
+  Folders,
+  ImageIcon,
+  LocateIcon,
+  Map,
+  MapPin,
+  Pencil,
+  PenTool,
+  XCircle,
+} from "lucide-react";
+import { FaCheckCircle } from "react-icons/fa";
 
 const ProfileInfo = ({ data, photos }) => {
   const firstName = data?.fullName.split(" ")[0];
@@ -29,20 +40,55 @@ const ProfileInfo = ({ data, photos }) => {
                 <Pencil size={16} /> Edit profile
               </Link>
             </div>
-            <p className="mt-5">
-              Download free, beautiful high-quality photos curated by{" "}
-              {firstName}
-            </p>
-            <p className="mt-5 text-neutral-500 flex items-center gap-2">
-              <XCircle size={16} /> Not available for hire{" "}
-              <Link to="/settings#hiring" className="underline text-sm">
-                Update
+            {data?.bio ? (
+              <p className="mt-5">{data?.bio}</p>
+            ) : (
+              <p className="mt-5">
+                Download free, beautiful high-quality photos curated by{" "}
+                {firstName}
+              </p>
+            )}
+
+            {data?.available ? (
+              <p className="mt-5 text-blue-600 flex items-center gap-2">
+                <FaCheckCircle size={16} className="fill-current" /> Available
+                for hire{" "}
+                <Link
+                  to="/settings#hiring"
+                  className="underline text-sm text-neutral-500"
+                >
+                  Update
+                </Link>
+              </p>
+            ) : (
+              <p className="mt-5 text-neutral-500 flex items-center gap-2">
+                <XCircle size={16} /> Not available for hire{" "}
+                <Link to="/settings#hiring" className="underline text-sm">
+                  Update
+                </Link>
+              </p>
+            )}
+
+            {data?.location && (
+              <p
+                className="mt-2 text-neutral-500 flex items-center gap-2 hover:text-neutral-700 transition-all ease capitalize cursor-pointer"
+              >
+                <MapPin size={16} /> {data?.location}
+              </p>
+            )}
+
+            {data?.website && (
+              <Link
+                to={data?.website}
+                className="mt-2 text-neutral-500 flex items-center gap-2 hover:text-neutral-700 transition-all ease"
+              >
+                <Earth size={16} /> {data?.website}
               </Link>
-            </p>
+            )}
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-start gap-1 border-b border-neutral-300">
+      <div className="flex items-center justify-start gap-1 border-b border-neutral-300 mt-15">
         <Link
           to={`/profile/${data?._id}`}
           className={`flex items-center gap-2 cursor-pointer capitalize mx-2 font-semibold text-sm ${location.pathname === `${`/profile/${data?._id}`}` ? "py-4 px-2 border-b-2 border-neutral-900" : "text-neutral-500 hover:text-neutral-900  py-4 px-2 transition-all ease duration-200"}`}

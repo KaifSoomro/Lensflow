@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import ImageCard from "../components/common/ImageCard";
 import fetchBookmarkIds from "../utils/getBookmarks";
+import ImageCardSkeleton from "../components/common/ImageCardSkeleton";
 
 const ProfilePhotoPage = () => {
   const photoType = "photo";
@@ -44,14 +45,22 @@ const ProfilePhotoPage = () => {
   console.log(data);
   return (
     <div className="max-w-7xl mx-auto columns-3 gap-5.5 mt-15">
-      {Array.isArray(data) &&
+     {isLoading ? (
+        <>
+          <ImageCardSkeleton />
+          <ImageCardSkeleton />
+          <ImageCardSkeleton />
+        </>
+      ) : (
+        Array.isArray(data) &&
         data.map((value, index) => (
           <ImageCard
             key={index}
             value={value}
             isBookmarked={bookmarkedIds.has(value?._id)}
           />
-        ))}
+        ))
+      )}
     </div>
   );
 };

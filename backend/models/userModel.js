@@ -39,6 +39,12 @@ const userSchema = new mongoose.Schema(
       default: "",
       maxlength: 250,
     },
+    location: {
+      type: String
+    },
+    website: {
+      type: String
+    },
     photos: [
       {
         type: mongoose.Schema.Types.ObjectId,
