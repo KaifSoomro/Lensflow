@@ -1,6 +1,8 @@
 import React from "react";
 import ProfileCollectionCard from "../components/profile/ProfileCollectionCard";
 import { useQuery } from "@tanstack/react-query";
+import CollectionCardSkeleton from "../components/collection/CollectionCardSkeleton";
+import LaptopImage from "../assets/images/laptop.png";
 
 const ProfileCollectionsPage = () => {
   const token = localStorage.getItem("token");
@@ -31,15 +33,28 @@ const ProfileCollectionsPage = () => {
     },
   });
 
-  console.log(collections)
+  console.log(collections);
 
   return (
     <div className="max-w-7xl mx-auto">
       <div className="w-full grid grid-cols-3 mt-15">
-        {Array.isArray(collections) &&
-          collections.map((collection, index) => (
+        {isLoading ? (
+          <>
+            <CollectionCardSkeleton />
+            <CollectionCardSkeleton />
+            <CollectionCardSkeleton />
+          </>
+        ) : Array.isArray(collections) ? (
+          collections?.map((collection, index) => (
             <ProfileCollectionCard collection={collection} />
-          ))}
+          ))
+        ) : (
+          <div className="w-full flex items-center justify-center">
+            <div>
+              <img src={LaptopImage} alt="laptop-img" className="w-80" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
