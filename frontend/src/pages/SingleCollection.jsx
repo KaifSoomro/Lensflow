@@ -110,10 +110,18 @@ const SingleCollection = () => {
                 ))}
             </div>
           ) : (
-            <div className="w-full flex items-center justify-center">
-              <div>
-                <img src={LaptopImage} alt="laptop-img" className="w-80" />
-              </div>
+            <div className={`w-full ${isLoading ? "grid grid-cols-3 gap-7 relative mt-50 mb-10" : "flex items-center justify-center"}`}>
+              {isLoading ? (
+                <>
+                  <ImageCardSkeleton />
+                  <ImageCardSkeleton /> 
+                  <ImageCardSkeleton />
+                </>
+              ) : (
+                <div>
+                  <img src={LaptopImage} alt="laptop-img" className="w-80" />
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -33,8 +33,6 @@ const ProfileCollectionsPage = () => {
     },
   });
 
-  console.log(collections);
-
   return (
     <div className="max-w-7xl mx-auto">
       <div className="w-full grid grid-cols-3 mt-15">

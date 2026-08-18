@@ -2,7 +2,7 @@ import React from "react";
 
 const ImageCardSkeleton = () => {
   return (
-    <div className="relative mb-7 w-full overflow-hidden rounded-lg border border-neutral-300 break-inside-avoid animate-pulse">
+    <div className="relative mb-7 w-full overflow-hidden border border-neutral-300 break-inside-avoid animate-pulse">
       <div className="w-full h-105 bg-neutral-200" />
 
       <div className="absolute inset-0 flex flex-col justify-between p-4">
