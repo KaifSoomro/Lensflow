@@ -1,14 +1,23 @@
 import React from "react";
 import { BsLockFill, BsPlusCircleFill } from "react-icons/bs";
 import CollectionCardSkeletions from "../common/CollectionCardSkeletions";
+import { BiSolidMinusCircle } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
-const CollectionCard = ({ collection, isLoading }) => {
+const CollectionCard = ({ collection, isLoading, collectionPhotoIds }) => {
+
+  const { photoId } = useSelector((state) => state.collection);
+
+  const isCollection = collection?.photos?.some(
+    (photo) => photoId === photo?._id,
+  );
+
   return (
     <>
       {isLoading ? (
         <CollectionCardSkeletions />
       ) : (
-        <button className="mt-5 w-full flex items-center justify-between hover:bg-neutral-100 px-3 py-2 rounded-md group cursor-pointer">
+        <button className={`mt-5 w-full flex items-center justify-between px-3 py-2 rounded-md group cursor-pointer ${isCollection ? "hover:bg-blue-100" : "hover:bg-neutral-100"}`}>
           <div className="flex items-center gap-5">
             <div className="w-14 rounded overflow-hidden">
               <img
@@ -29,7 +38,16 @@ const CollectionCard = ({ collection, isLoading }) => {
             </div>
           </div>
           <div className="hidden group-hover:block">
-            <BsPlusCircleFill size={25} />
+            {isCollection ? (
+              <BiSolidMinusCircle
+                size={25}
+                className={`${isCollection && "text-blue-600"}`}
+              />
+            ) : (
+              <BsPlusCircleFill
+                size={25}
+              />
+            )}
           </div>
         </button>
       )}

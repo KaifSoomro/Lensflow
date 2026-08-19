@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import CollectionCard from "./CollectionCard";
+import fetchCollectionPhotoIds from "../../utils/getCollectionPhotoIds";
 
 const CollectionBox = () => {
   const dispatch = useDispatch();
@@ -32,10 +33,10 @@ const CollectionBox = () => {
   const max = 60 - length;
 
   const handleNameInput = (e) => {
-    if(length <= 60){
+    if (length <= 60) {
       setName(e.target.value);
     }
-  }
+  };
 
   const closeCollectionDialog = () => {
     dispatch(setShowDialog(false));
@@ -109,6 +110,13 @@ const CollectionBox = () => {
   });
 
   console.log(data);
+
+  const { data: collections } = useQuery({
+    queryKey: ["collectionPhotoIds"],
+    queryFn: fetchCollectionPhotoIds,
+  });
+
+  const collectionPhotoIds = new Set(collections || []);
 
   return (
     <>
@@ -212,6 +220,7 @@ const CollectionBox = () => {
                   key={index}
                   collection={collection}
                   isLoading={isLoading}
+                  collectionPhotoIds={collectionPhotoIds}
                 />
               ))}
           </div>
