@@ -1,18 +1,14 @@
 import { ChevronLeft, Loader2, Plus, Search, XIcon } from "lucide-react";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setShowDialog,
   setToggleCreateCollection,
 } from "../../features/collectionSlice";
-import Image from "../../assets/images/illustration.jpg";
 import { BsLockFill } from "react-icons/bs";
-import { BsPlusCircleFill } from "react-icons/bs";
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import CollectionCard from "./CollectionCard";
-import fetchCollectionPhotoIds from "../../utils/getCollectionPhotoIds";
 
 const CollectionBox = () => {
   const dispatch = useDispatch();
@@ -111,13 +107,6 @@ const CollectionBox = () => {
 
   console.log(data);
 
-  const { data: collections } = useQuery({
-    queryKey: ["collectionPhotoIds"],
-    queryFn: fetchCollectionPhotoIds,
-  });
-
-  const collectionPhotoIds = new Set(collections || []);
-
   return (
     <>
       {toggleCreateCollection ? (
@@ -206,7 +195,7 @@ const CollectionBox = () => {
             >
               <XIcon
                 size={30}
-                className="text-red-400 group-hover:text-red-600 transition-all ease"
+                className="text-neutral-400 group-hover:text-neutral-600 transition-all ease"
               />
             </button>
           </div>
@@ -220,7 +209,6 @@ const CollectionBox = () => {
                   key={index}
                   collection={collection}
                   isLoading={isLoading}
-                  collectionPhotoIds={collectionPhotoIds}
                 />
               ))}
           </div>

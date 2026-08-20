@@ -351,3 +351,49 @@ export const getCollectionById = async (req, res) => {
     });
   }
 };
+
+export const toggleCollection = async (req, res) => {
+  try {
+    const { collectionId } = req.params;
+    const { photoId } = req.body;
+
+    const collection = await Collection.findById(collectionId);
+
+    if (!collection) {
+      return res.status(404).json({
+        success: false,
+        message: "Collection not found.",
+      });
+    }
+
+    const existingPhoto = collection.photos.some(
+      (p) => p._id.toString() === photoId.toString(),
+    );
+
+    if (!existingPhoto) {
+      collection.photos.push(photoId);
+      await collection.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Added to collection",
+      });
+    }
+
+    collection.photos = collection.photos.filter(
+      (p) => p._id.toString() !== photoId.toString(),
+    );
+
+    await collection.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Removed from collection",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

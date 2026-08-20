@@ -3,27 +3,76 @@ import { BsLockFill, BsPlusCircleFill } from "react-icons/bs";
 import CollectionCardSkeletions from "../common/CollectionCardSkeletions";
 import { BiSolidMinusCircle } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
-const CollectionCard = ({ collection, isLoading, collectionPhotoIds }) => {
-
+const CollectionCard = ({ collection, isLoading }) => {
   const { photoId } = useSelector((state) => state.collection);
+  const token = localStorage.getItem("token");
+  const queryClient = useQueryClient();
 
   const isCollection = collection?.photos?.some(
     (photo) => photoId === photo?._id,
   );
 
+  const { mutate: toggleCollection, isPending } = useMutation({
+    mutationFn: async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/collection/toggle/${collection?._id}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ photoId }),
+          },
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (data) => {
+      toast.success(data?.message);
+      queryClient.invalidateQueries({
+        queryKey: ["collectionData"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["collectionPhotoIds"],
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error.message);
+    },
+  });
+
   return (
     <>
-      {isLoading ? (
+      {isLoading || isPending ? (
         <CollectionCardSkeletions />
       ) : (
-        <button className={`mt-5 w-full flex items-center justify-between px-3 py-2 rounded-md group cursor-pointer ${isCollection ? "hover:bg-blue-100" : "hover:bg-neutral-100"}`}>
+        <button
+          onClick={toggleCollection}
+          className={`mt-5 w-full flex items-center justify-between px-3 py-2 rounded-md group cursor-pointer ${isCollection ? "hover:bg-blue-100" : "hover:bg-neutral-100"}`}
+        >
           <div className="flex items-center gap-5">
             <div className="w-14 rounded overflow-hidden">
-              <img
-                src={collection?.photos[0]?.cardImage}
-                alt="collection-img-01"
-              />
+              {collection?.photos[0]?.cardImage ? (
+                <img
+                  src={collection?.photos[0]?.cardImage}
+                  alt="collection-img-01"
+                />
+              ) : <div className="w-14 h-15 bg-neutral-200">  </div>}
             </div>
             <div>
               <h1 className="text-lg font-semibold">
@@ -44,9 +93,7 @@ const CollectionCard = ({ collection, isLoading, collectionPhotoIds }) => {
                 className={`${isCollection && "text-blue-600"}`}
               />
             ) : (
-              <BsPlusCircleFill
-                size={25}
-              />
+              <BsPlusCircleFill size={25} />
             )}
           </div>
         </button>

@@ -51,8 +51,6 @@ const Home = () => {
     queryFn: fetchCollectionPhotoIds,
   });
 
-  console.log("collectionIds: ", collections)
-
   const bookmarkedIds = new Set(bookmarks || []);
   const collectionPhotoIds = new Set(collections || []);
 

@@ -11,6 +11,7 @@ import {
   getCollections,
   getCollectionPhotoIds,
   getCollectionById,
+  toggleCollection,
 } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -27,5 +28,6 @@ router.post("/collection/create", protectRoute, createCollection);
 router.get("/collection/getAll", protectRoute, getCollections);
 router.get("/collection/photoIds", protectRoute, getCollectionPhotoIds);
 router.get("/collection/:collectionId", protectRoute, getCollectionById);
+router.post("/collection/toggle/:collectionId", protectRoute, toggleCollection);
 
 export default router;
