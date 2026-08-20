@@ -40,18 +40,21 @@ const Bookmarks = () => {
   });
 
   const { mutate: clearBookmarks, isPending } = useMutation({
-    mutationFn: async() => {
+    mutationFn: async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/delete/bookmarks`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/delete/bookmarks`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
         const data = await response.json();
 
-        if(!response.ok){
+        if (!response.ok) {
           throw new Error(data.message);
         }
 
@@ -61,12 +64,12 @@ const Bookmarks = () => {
       }
     },
     onSuccess: (data) => {
-      toast.success(data.message)
+      toast.success(data.message);
       queryClient.invalidateQueries({
-        queryKey: ["getBookmarks"]
-      })
-    }
-  })
+        queryKey: ["getBookmarks"],
+      });
+    },
+  });
 
   return (
     <div className="max-w-7xl mx-auto my-6">
@@ -77,20 +80,29 @@ const Bookmarks = () => {
         </div>
         {data?.length > 0 ? (
           <div className="flex items-center gap-2.5">
-            <button className="flex items-center gap-1.5 px-2 py-1 border-2 border-black rounded-lg cursor-pointer text-white transition-all ease duration-200 text-sm font-semibold bg-black hover:bg-neutral-800">
+            <button className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg cursor-pointer text-white transition-all ease duration-200 text-sm font-semibold bg-black hover:bg-linear-to-t hover:from-neutral-900 hover:to-neutral-800">
               <Download size={18} /> Download All
             </button>
 
-            <button
-              className="flex items-center gap-1 px-2 py-1 border-2 border-neutral-400/40 rounded-lg cursor-pointer text-neutral-500  transition-all ease duration-200 text-sm font-semibold hover:border-neutral-400/80 hover:text-neutral-600"
-            >
-              <Folders size={18}/> Convert to collection
+            <button className="flex items-center gap-1 px-2 py-1 border-2 border-neutral-400/40 rounded-lg cursor-pointer text-neutral-500  transition-all ease duration-200 text-sm font-semibold hover:border-neutral-400/80 hover:text-neutral-600">
+              <Folders size={18} /> Convert to collection
             </button>
 
-            <button onClick={()=>clearBookmarks()} className="flex items-center gap-1.5 px-2 py-1 border-2 border-red-400 rounded-lg cursor-pointer text-red-500  transition-all ease duration-200 text-sm font-semibold hover:bg-red-100 hover:text-red-700">
-              {
-                isPending ? <Loader2 size={18} className="animate-spin duration-200 transition-all ease"/> : <> <Trash2 size={18} /> Clear </> 
-              }
+            <button
+              onClick={() => clearBookmarks()}
+              className="flex items-center gap-1.5 px-2 py-1 border-2 border-red-400 rounded-lg cursor-pointer text-red-500  transition-all ease duration-200 text-sm font-semibold hover:bg-red-100 hover:text-red-700"
+            >
+              {isPending ? (
+                <Loader2
+                  size={18}
+                  className="animate-spin duration-200 transition-all ease"
+                />
+              ) : (
+                <>
+                  {" "}
+                  <Trash2 size={18} /> Clear{" "}
+                </>
+              )}
             </button>
           </div>
         ) : (

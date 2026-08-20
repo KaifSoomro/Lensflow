@@ -88,7 +88,7 @@ const Topbar = () => {
         />
 
         {user ? (
-          <Link to="/submit-photo" className="w-40 px-4 py-1.5 border-1 shadow-sm border-neutral-400/40 rounded-lg cursor-pointer text-neutral-500  transition-all ease duration-200 text-sm font-semibold hover:border-neutral-400/80 hover:text-neutral-600">
+          <Link to="/submit-photo" className="w-40 px-4 py-1.5 border shadow-sm border-neutral-400/40 rounded-lg cursor-pointer text-neutral-500  transition-all ease duration-200 text-sm font-semibold hover:border-neutral-400/80 hover:text-neutral-600">
             Submit an Image
           </Link>
         ) : (
