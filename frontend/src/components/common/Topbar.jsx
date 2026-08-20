@@ -1,7 +1,7 @@
 import { LogIn } from "lucide-react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setParagraph } from "../../features/dynamicRouteSlice";
 
 const Topbar = () => {
@@ -88,7 +88,7 @@ const Topbar = () => {
         />
 
         {user ? (
-          <Link to="/submit-photo" className="w-40 px-4 py-1 border-2 border-neutral-400/40 rounded-lg cursor-pointer text-neutral-500  transition-all ease duration-200 text-sm font-semibold hover:border-neutral-400/80 hover:text-neutral-600">
+          <Link to="/submit-photo" className="w-40 px-4 py-1.5 border-1 shadow-sm border-neutral-400/40 rounded-lg cursor-pointer text-neutral-500  transition-all ease duration-200 text-sm font-semibold hover:border-neutral-400/80 hover:text-neutral-600">
             Submit an Image
           </Link>
         ) : (

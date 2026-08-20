@@ -50,9 +50,8 @@ const CollectionCard = ({ collection, isLoading }) => {
         queryKey: ["collectionPhotoIds"],
       });
     },
-    onError: (error) => {
-      toast.error(error.message);
-      console.log(error.message);
+    onError: () => {
+      toast.error("Something went wrong.");
     },
   });
 
@@ -72,7 +71,7 @@ const CollectionCard = ({ collection, isLoading }) => {
                   src={collection?.photos[0]?.cardImage}
                   alt="collection-img-01"
                 />
-              ) : <div className="w-14 h-15 bg-neutral-200">  </div>}
+              ) : <div className="w-14 h-15 bg-neutral-200"></div>}
             </div>
             <div>
               <h1 className="text-lg font-semibold">
