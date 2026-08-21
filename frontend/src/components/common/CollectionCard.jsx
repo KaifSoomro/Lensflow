@@ -19,7 +19,7 @@ const CollectionCard = ({ collection, isLoading }) => {
     mutationFn: async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/collection/toggle/${collection?._id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/collection/toggle/${collection?._id}`,
           {
             method: "POST",
             headers: {

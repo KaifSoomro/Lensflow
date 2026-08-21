@@ -24,7 +24,7 @@ const SingleCollection = () => {
     queryFn: async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/collection/${collectionId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/collection/${collectionId}`,
           {
             method: "GET",
             headers: {

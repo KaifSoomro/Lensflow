@@ -8,7 +8,6 @@ import ImageUpload from "../assets/images/empty-upload.png";
 const SubmitPhoto = () => {
   const [preview, setPreview] = useState(null);
   const [tagInput, setTagInput] = useState("");
-  const [imageType, setImageType] = useState("");
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();

@@ -7,11 +7,6 @@ import {
   clearBookmarks,
   getProfileContent,
   getProfilePhotoCounts,
-  createCollection,
-  getCollections,
-  getCollectionPhotoIds,
-  getCollectionById,
-  toggleCollection,
 } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -24,10 +19,5 @@ router.post("/toggle/bookmark", protectRoute, toggleBookmark);
 router.get("/get/bookmarks", protectRoute, getBookmarks);
 router.get("/get/bookmarksId", protectRoute, getBookmarkIds);
 router.delete("/delete/bookmarks", protectRoute, clearBookmarks);
-router.post("/collection/create", protectRoute, createCollection);
-router.get("/collection/getAll", protectRoute, getCollections);
-router.get("/collection/photoIds", protectRoute, getCollectionPhotoIds);
-router.get("/collection/:collectionId", protectRoute, getCollectionById);
-router.post("/collection/toggle/:collectionId", protectRoute, toggleCollection);
 
 export default router;

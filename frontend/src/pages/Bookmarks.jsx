@@ -5,7 +5,6 @@ import { Bookmark, Download, Folders, Loader2, Trash2 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton";
 import ImageCard from "../components/common/ImageCard";
-import { HiLockClosed } from "react-icons/hi";
 import toast from "react-hot-toast";
 
 const Bookmarks = () => {

@@ -42,7 +42,7 @@ const CollectionBox = () => {
     mutationFn: async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/collection/create`,
+          `${import.meta.env.VITE_BACKEND_URL}/collection/create`,
           {
             method: "POST",
             headers: {
