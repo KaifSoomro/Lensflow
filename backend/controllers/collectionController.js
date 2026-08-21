@@ -223,3 +223,40 @@ export const updateCollection = async (req, res) => {
     });
   }
 };
+
+export const deleteCollection = async (req, res) => {
+  try {
+    const { collectionId } = req.params;
+
+    const userId = req.user._id;
+
+    const collection = await Collection.findById(collectionId);
+
+    if (!collection) {
+      return res.status(404).json({
+        success: false,
+        message: "Collection not found.",
+      });
+    }
+    const user = await User.findById(userId);
+
+    if (collection.user.toString() !== user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to delete this collection.",
+      });
+    }
+
+    await collection.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Collection deleted successfully.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

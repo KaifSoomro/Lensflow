@@ -6,12 +6,13 @@ import {
 } from "../../features/collectionSlice";
 import { BsLockFill } from "react-icons/bs";
 import { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import CollectionCard from "./CollectionCard";
 
 const CollectionBox = () => {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const { toggleCreateCollection, photoId } = useSelector(
     (state) => state.collection,
   );
@@ -67,6 +68,9 @@ const CollectionBox = () => {
     onSuccess: (data) => {
       toast.success(data.message);
       dispatch(setToggleCreateCollection(false));
+      queryClient.invalidateQueries({
+        queryKey: ["collectionData"]
+      })
     },
     onError: (error) => {
       toast.error(error.message);

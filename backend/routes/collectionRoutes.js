@@ -6,6 +6,7 @@ import {
   getCollectionById,
   toggleCollection,
   updateCollection,
+  deleteCollection,
 } from "../controllers/collectionController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -17,5 +18,6 @@ router.get("/photoIds", protectRoute, getCollectionPhotoIds);
 router.get("/:collectionId", protectRoute, getCollectionById);
 router.post("/toggle/:collectionId", protectRoute, toggleCollection);
 router.put("/update/:collectionId", protectRoute, updateCollection);
+router.delete("/delete/:collectionId", protectRoute, deleteCollection);
 
 export default router;
