@@ -1,4 +1,5 @@
 import Collection from "../models/collectionModel.js";
+import User from "../models/userModel.js";
 
 export const createCollection = async (req, res) => {
   try {
@@ -161,6 +162,59 @@ export const toggleCollection = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Removed from collection",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const updateCollection = async (req, res) => {
+  try {
+    const { collectionId } = req.params;
+    const { collectionName, isPrivate } = req.body;
+
+    if (!collectionName) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter collection name before saving.",
+      });
+    }
+
+    const userId = req.user._id;
+
+    const collection = await Collection.findById(collectionId);
+
+    if (!collection) {
+      return res.status(404).json({
+        success: false,
+        message: "Collection not found.",
+      });
+    }
+    const user = await User.findById(userId);
+
+    if (collection.user.toString() !== user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to update this collection.",
+      });
+    }
+
+    collection.collectionName = collectionName || collection.collectionName;
+    
+    if(isPrivate){
+      collection.private = isPrivate;
+    }else {
+      collection.private = false;
+    }
+
+    await collection.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Collection updated successfully.",
     });
   } catch (error) {
     return res.status(500).json({
