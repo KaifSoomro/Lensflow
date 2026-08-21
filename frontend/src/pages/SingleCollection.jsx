@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsLockFill } from "react-icons/bs";
 import { Link, useParams } from "react-router-dom";
 import ProfileImage from "../assets/images/profile.webp";
@@ -17,6 +17,7 @@ const SingleCollection = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const { showEditDialog } = useSelector((state) => state.collection);
+  const [showDeletePanel, setShowDeletePanel] = useState(false);
 
   const { data: collection, isLoading } = useQuery({
     queryKey: ["singleCollection"],
@@ -58,11 +59,38 @@ const SingleCollection = () => {
   const bookmarkedIds = new Set(bookmarks || []);
   const collectionPhotoIds = new Set(collections || []);
 
+  const [name, setName] = useState("");
+  const [private_value, setPrivateValue] = useState(null);
+
+  useEffect(() => {
+    if (collection?.collectionName) {
+      setName(collection?.collectionName);
+      setPrivateValue(collection?.private);
+    }
+  }, [collection]);
+
+  const collectionData = {
+    collectionName: name,
+    isPrivate: private_value,
+    collectionId: collectionId,
+  };
+
+  console.log("collectionName: ", name);
+
+  const length = Number(name.length || 0);
+  const max = 60 - length;
+
+  const handleNameInput = (e) => {
+    if (length <= 60) {
+      setName(e.target.value);
+    }
+  };
+
   return (
     <>
       {showEditDialog && (
         <div className="absolute top-0 left-0 w-full h-full bg-black/40 z-30 flex items-center justify-center">
-          <div className="relative w-130 h-120 rounded-xl bg-white shadow-lg p-8">
+          <div className="relative w-130 rounded-xl bg-white shadow-lg p-8">
             <button
               className="absolute top-8 right-8 cursor-pointer text-neutral-600 hover:text-neutral-800 transition-all ease"
               onClick={() => dispatch(setEditShowDialog(false))}
@@ -76,8 +104,53 @@ const SingleCollection = () => {
             <form>
               <div className="flex flex-col gap-2 mt-10">
                 <label htmlFor="name">Name</label>
-                <input type="text" className="border rounded-lg py-1 ps-2 outline-neutral-700 transition-all ease"/>
+                <div className="border border-neutral-400 rounded-lg py-2 px-2 transition-all ease hover:border-neutral-700 text-sm flex items-center justify-between">
+                  <input
+                    type="text"
+                    className="w-full pe-2 outline-none"
+                    placeholder="Beautiful photos"
+                    value={name}
+                    onChange={handleNameInput}
+                  />
+                  <p className="text-neutral-700">{max}</p>
+                </div>
               </div>
+
+              <div className="flex mt-10 gap-1.5">
+                <input
+                  type="checkbox"
+                  checked={private_value}
+                  onChange={(e) => setPrivateValue(e.target.checked)}
+                />
+                <h2 className="flex items-center gap-1.5">
+                  Make collection private{" "}
+                  <BsLockFill size={12} className="text-neutral-600" />
+                </h2>
+              </div>
+
+              {showDeletePanel ? (
+                <div className="flex items-center justify-between mt-10">
+                  <div className="flex items-center gap-1.5">
+                    <h1>Are you sure?</h1>
+                    <button onClick={() => setShowDeletePanel(false)} className="underline text-neutral-400 cursor-pointer hover:text-neutral-600 transition-all ease duration-200">Cancel</button>
+                  </div>
+                  <button className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg cursor-pointer text-white transition-all ease duration-200 text-md font-semibold bg-linear-to-t from-red-600 to-red-500 hover:bg-linear-to-t hover:from-red-700 hover:to-red-500">
+                    Delete
+                  </button> 
+                </div>
+              ) : (
+                <div className="flex items-center justify-between mt-10">
+                  <button
+                    onClick={() => setShowDeletePanel(true)}
+                    className="underline text-red-400 cursor-pointer hover:text-red-600 transition-all ease duration-200"
+                  >
+                    Delete collection
+                  </button>
+                  <button className="flex items-center gap-1.5 px-5 py-2.5 rounded-lg cursor-pointer text-white transition-all ease duration-200 text-md font-semibold bg-black hover:bg-linear-to-t hover:from-neutral-900 hover:to-neutral-800">
+                    Save
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         </div>
