@@ -5,6 +5,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import photoRoutes from "./routes/photoRoutes.js";
 import collectionRoutes from "./routes/collectionRoutes.js";
+import bookmarkRoutes from "./routes/bookmarkRoutes.js";
 import cors from "cors";
 import helmet from "helmet";
 import { v2 as cloudinary } from "cloudinary";
@@ -34,6 +35,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/photo", photoRoutes);
 app.use("/api/v1/collection", collectionRoutes);
+app.use("/api/v1/bookmark", bookmarkRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);

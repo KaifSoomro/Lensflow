@@ -2,7 +2,7 @@ const token = localStorage.getItem("token");
 
 const fetchCollectionPhotoIds = async () => {
   const res = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}collection/photoIds`,
+    `${import.meta.env.VITE_BACKEND_URL}/collection/photoIds`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

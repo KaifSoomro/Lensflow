@@ -83,7 +83,7 @@ const CollectionBox = () => {
     queryFn: async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/collection/getAll`,
+          `${import.meta.env.VITE_BACKEND_URL}/collection/getAll`,
           {
             method: "GET",
             headers: {

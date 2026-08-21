@@ -2,7 +2,7 @@ const token = localStorage.getItem("token");
 
 const fetchBookmarkIds = async () => {
   const res = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/user/get/bookmarksId`,
+    `${import.meta.env.VITE_BACKEND_URL}/bookmark/get/bookmarksId`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

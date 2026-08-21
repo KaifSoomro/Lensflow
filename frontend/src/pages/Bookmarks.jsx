@@ -16,7 +16,7 @@ const Bookmarks = () => {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/get/bookmarks`,
+          `${import.meta.env.VITE_BACKEND_URL}/bookmark/get/bookmarks`,
           {
             method: "GET",
             headers: {
@@ -42,7 +42,7 @@ const Bookmarks = () => {
     mutationFn: async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/delete/bookmarks`,
+          `${import.meta.env.VITE_BACKEND_URL}/bookmark/delete/bookmarks`,
           {
             method: "DELETE",
             headers: {

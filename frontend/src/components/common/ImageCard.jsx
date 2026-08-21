@@ -50,7 +50,7 @@ const ImageCard = ({ value, isBookmarked, isCollection }) => {
     mutationFn: async (photoId) => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/toggle/bookmark`,
+          `${import.meta.env.VITE_BACKEND_URL}/bookmark/toggle/bookmark`,
           {
             method: "POST",
             headers: {
