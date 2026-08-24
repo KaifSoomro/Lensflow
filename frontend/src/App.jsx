@@ -19,6 +19,9 @@ import ProfilePhotoPage from "./pages/ProfilePhotoPage";
 import ProfileIllustrationsPage from "./pages/ProfileIllustrationsPage";
 import ProfileCollectionsPage from "./pages/ProfileCollectionsPage";
 import SingleCollection from "./pages/SingleCollection";
+import EditAccountDetails from "./pages/EditAccountDetails";
+import ChangePassword from "./pages/ChangePassword";
+import CloseAccount from "./pages/CloseAccount";
 
 const App = () => {
   return (
@@ -46,7 +49,11 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify/:token" element={<VerifyPage />} />
         <Route element={<ProtectRoutes />}>
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/account" element={<Settings />}>
+             <Route index element={<EditAccountDetails />} />
+             <Route path="password" element={<ChangePassword />} />
+             <Route path="close" element={<CloseAccount />} />
+          </Route>
         </Route>
       </Routes>
     </>

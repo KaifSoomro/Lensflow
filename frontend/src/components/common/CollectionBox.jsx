@@ -115,7 +115,7 @@ const CollectionBox = () => {
     <>
       {toggleCreateCollection ? (
         <form onSubmit={handleSubmit}>
-          <div className="relative w-120 h-90 rounded-2xl bg-white flex flex-col items-center justify-start">
+          <div className="relative w-120 h-90 rounded-2xl bg-white flex flex-col items-center justify-start shadow-lg">
             <div className="w-full flex items-center gap-5 border-b pb-4 border-neutral-400 px-7 pt-5">
               <button
                 onClick={() => dispatch(setToggleCreateCollection(false))}
@@ -184,7 +184,7 @@ const CollectionBox = () => {
           </div>
         </form>
       ) : (
-        <div className="relative w-120 h-120 rounded-2xl bg-white flex flex-col items-center justify-start">
+        <div className="relative w-120 h-120 rounded-2xl bg-white flex flex-col items-center justify-start shadow-lg">
           <div className="w-full flex items-center justify-between border-b pb-4 border-neutral-400 px-7 pt-5">
             <Search size={25} className="text-neutral-500" />
             <input

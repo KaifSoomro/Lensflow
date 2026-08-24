@@ -218,7 +218,7 @@ const SingleCollection = () => {
                     <h1>Are you sure?</h1>
                     <button
                       onClick={() => setShowDeletePanel(false)}
-                      className="underline text-neutral-400 cursor-pointer hover:text-neutral-600 transition-all ease duration-200"
+                      className="underline text-neutral-500 cursor-pointer hover:text-neutral-600 transition-all ease duration-200"
                     >
                       Cancel
                     </button>

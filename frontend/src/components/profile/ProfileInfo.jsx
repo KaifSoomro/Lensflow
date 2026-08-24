@@ -34,7 +34,7 @@ const ProfileInfo = ({ data, photos }) => {
                 {data?.fullName}
               </h1>
               <Link
-                to="/settings"
+                to="/account"
                 className={`cursor-pointer capitalize mx-2 font-semibold text-sm text-neutral-500 hover:text-neutral-900 py-1.5 px-4 rounded-lg transition-all ease duration-200 border border-neutral-300 shadow hover:border-neutral-900 flex items-center gap-2`}
               >
                 <Pencil size={16} /> Edit profile

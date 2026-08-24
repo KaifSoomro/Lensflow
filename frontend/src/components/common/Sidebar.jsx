@@ -153,7 +153,7 @@ const Sidebar = () => {
             {user && (
               <div className="border-t border-neutral-400/40 mt-2 p-2 pt-3">
                 <NavLink
-                  to="/settings"
+                  to="/account"
                   className="hover:bg-neutral-400/10 text-neutral-500 hover:text-black rounded-lg p-2 transition-all ease duration-200 text-sm pe-18.5"
                 >
                   Account settings
