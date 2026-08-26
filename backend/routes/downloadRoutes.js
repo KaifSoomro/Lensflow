@@ -1,5 +1,5 @@
 import express from "express";
-import { downloadPhoto } from "../controllers/downloadController";
+import { downloadPhoto } from "../controllers/downloadController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
 const router = express.Router();

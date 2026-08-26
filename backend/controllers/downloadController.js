@@ -23,7 +23,7 @@ export const downloadPhoto = async (req, res) => {
       image = photo.previewImage;
     }
 
-    const existingDownloadUser = await Downloads.find({ user: req.user._id });
+    const existingDownloadUser = await Downloads.findOne({ user: req.user._id });
 
     if (!existingDownloadUser) {
       await Downloads.create({

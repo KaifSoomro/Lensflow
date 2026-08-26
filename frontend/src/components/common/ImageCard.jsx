@@ -12,6 +12,8 @@ const ImageCard = ({ value, isBookmarked, isCollection }) => {
   const queryClient = useQueryClient();
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const photoSize = "image";
+  const randomNumber = Math.floor(Math.random() * 2000000);
 
   const { mutate: addPhotoView } = useMutation({
     mutationFn: async (photoId) => {
@@ -96,6 +98,64 @@ const ImageCard = ({ value, isBookmarked, isCollection }) => {
     dispatch(setPhotoId(value?._id));
   };
 
+  const { mutate: downloadImage, isPending: isDownloading } = useMutation({
+    mutationFn: async (photoId) => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/download/photo`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ photoId, photoSize }),
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Download failed.");
+        }
+
+        return data;
+      } catch (error) {
+        throw new error();
+      }
+    },
+    onSuccess: (data) => {
+      downloadFromBrowser(data);
+    },
+  });
+
+  const downloadFromBrowser = async (data) => {
+    const imageResponse = await fetch(data?.photo_url);
+
+    if (!imageResponse.ok) {
+      throw new Error("Failed to fetch image");
+    }
+
+    const blob = await imageResponse.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = `${value?.user?.fullName}-${randomNumber}-image.jpg`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(blobUrl);
+  };
+
+  const handleDownload = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    downloadImage(value?._id);
+  };
+
   return (
     <div
       onClick={handleCard}
@@ -158,9 +218,17 @@ const ImageCard = ({ value, isBookmarked, isCollection }) => {
           </div>
           <button
             title="Download"
+            onClick={handleDownload}
             className="bg-neutral-300 rounded-md px-3 py-2 text-neutral-600 cursor-pointer hover:text-neutral-900 transition-all ease duration-200"
           >
-            <ArrowDown size={21} />
+            {isDownloading ? (
+              <Loader2
+                size={21}
+                className="animate-spin duration-300 transition-all"
+              />
+            ) : (
+              <ArrowDown size={21} />
+            )}
           </button>
         </div>
       </div>
