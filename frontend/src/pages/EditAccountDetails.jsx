@@ -30,19 +30,19 @@ const EditAccountDetails = () => {
           </div>
         </div>
         <div className="w-full mt-10">
-          <div className="flex justify-center gap-5 bg-amber-200">
+          <div className="flex justify-center gap-5">
             <div className="w-full">
               <label>First name</label>
               <input
                 type="text"
-                className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1.5"
+                className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
               />
             </div>
             <div className="w-full">
               <label>Last name</label>
               <input
                 type="text"
-                className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1.5"
+                className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
               />
             </div>
           </div>
@@ -50,18 +50,95 @@ const EditAccountDetails = () => {
             <label>Email</label>
             <input
               type="email"
-              className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1.5"
+              className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
             />
           </div>
           <div className="mt-5">
-            <label>Username <p>(only letters, numbers, and underscores)</p></label>
+            <label className="flex gap-2 items-center">
+              Username{" "}
+              <p className="text-neutral-600">
+                (only letters, numbers, and underscores)
+              </p>
+            </label>
             <input
               type="text"
-              className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1.5"
+              className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
             />
           </div>
         </div>
       </div>
+      <h1 className="text-lg font-semibold mt-18">About</h1>
+      <div className="flex justify-center gap-5 mt-3">
+        <div className="w-full">
+          <label>Location</label>
+          <input
+            type="text"
+            className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
+          />
+        </div>
+        <div className="w-full">
+          <label>Personal site/portfolio</label>
+          <input
+            type="text"
+            placeholder="https://"
+            className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
+          />
+        </div>
+      </div>
+      <div className="flex justify-center gap-5 mt-8">
+        <div className="w-full">
+          <label>Bio</label>
+          <textarea
+            cols="30"
+            rows="10"
+            className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1 max-h-30"
+          ></textarea>
+        </div>
+        <div className="w-full">
+          <label>
+            Interest <span className="text-neutral-600">(maximum 5)</span>
+          </label>
+          <input
+            type="text"
+            placeholder="https://"
+            className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
+          />
+          <p className="mt-3 text-neutral-600">
+            Your interests are generated from the types of photos you like,
+            collect, and contribute.
+          </p>
+        </div>
+      </div>
+
+      <h1 className="text-lg font-semibold mt-10">Social</h1>
+
+      <div className="flex justify-center gap-5 mt-3">
+        <div className="w-full">
+          <label>Instagram username</label>
+          <input
+            type="text"
+            placeholder="@username"
+            className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
+          />
+          <p className="mt-2 text-neutral-600">
+            So that we can feature you on @lensflow
+          </p>
+        </div>
+        <div className="w-full">
+          <label>X (Twitter) username</label>
+          <input
+            type="text"
+            placeholder="@username"
+            className="w-full border rounded-lg outline-none px-3 py-1.5 mt-1"
+          />
+          <p className="mt-2 text-neutral-600">
+            So that we can feature you on @lensflow
+          </p>
+        </div>
+      </div>
+      <button className="mt-12 w-full px-2 py-2.5 rounded-lg cursor-pointer text-white transition-all ease duration-200 text-sm font-semibold bg-black hover:bg-linear-to-t hover:from-neutral-900 hover:to-neutral-800">
+        Update account
+      </button>
     </div>
   );
 };
