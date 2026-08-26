@@ -6,7 +6,7 @@ const EditAccountDetails = () => {
   const { user } = useSelector((state) => state.user);
 
   return (
-    <div className="max-w-7xl mx-auto ms-130 px-20 mt-29">
+    <div className="max-w-7xl mx-auto px-20 mt-29">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold">Edit profile</h1>
         <span className="flex items-center gap-1 bg-green-200 text-green-700 px-3 py-1 rounded-full text-sm shadow">
@@ -96,7 +96,7 @@ const EditAccountDetails = () => {
         </div>
         <div className="w-full">
           <label>
-            Interest <span className="text-neutral-600">(maximum 5)</span>
+            Interests <span className="text-neutral-600">(maximum 5)</span>
           </label>
           <input
             type="text"
@@ -136,7 +136,7 @@ const EditAccountDetails = () => {
           </p>
         </div>
       </div>
-      <button className="mt-12 w-full px-2 py-2.5 rounded-lg cursor-pointer text-white transition-all ease duration-200 text-sm font-semibold bg-black hover:bg-linear-to-t hover:from-neutral-900 hover:to-neutral-800">
+      <button className="mt-12 w-full px-2 py-3 rounded-lg cursor-pointer text-white transition-all ease duration-200 font-semibold bg-linear-to-t from-neutral-900 to-neutral-800 hover:from-neutral-900 hover:to-neutral-700">
         Update account
       </button>
     </div>
