@@ -76,7 +76,7 @@ export const getProfileContent = async (req, res) => {
 export const getProfilePhotoCounts = async (req, res) => {
   try {
     const photos = await Photo.find({ user: req.user._id });
-    const collections = await Collection.find();
+    const collection = await Collection.findOne({ user: req.user._id });
 
     if (!photos) {
       return res.status(404).json({
@@ -92,7 +92,7 @@ export const getProfilePhotoCounts = async (req, res) => {
       success: true,
       photos: realPhotos.length,
       illustrations: illustration.length,
-      collections: collections.length,
+      collections: collection.photos.length
     });
   } catch (error) {
     return res.status(500).json({

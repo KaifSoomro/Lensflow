@@ -66,7 +66,11 @@ const Profile = () => {
 
   return (
     <div>
-      {isLoading ? <ProfileInfoSkeleton /> : <ProfileInfo data={data} photos={photos}/>}
+      {isLoading ? (
+        <ProfileInfoSkeleton />
+      ) : (
+        <ProfileInfo data={data} photos={photos} />
+      )}
       <Outlet />
     </div>
   );
