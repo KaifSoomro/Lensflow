@@ -53,7 +53,7 @@ const DownloadHistory = () => {
           Created at {formatDate(data?.createdAt)}
         </h1>
       )}
-      <div className="w-full grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-15 mb-30">
+      <div className="w-full grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-15 gap-y-18 mb-30">
         {isLoading ? (
           <>
             <DownloadHistoryCardSkeleton />

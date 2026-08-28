@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton";
 import ImageCard from "../components/common/ImageCard";
 import toast from "react-hot-toast";
+import BookmarkCardSkeleton from "../components/common/BookmarkCardSkeleton";
 
 const Bookmarks = () => {
   const token = localStorage.getItem("token");
@@ -77,7 +78,7 @@ const Bookmarks = () => {
           <IoBookmarkSharp className="text-2xl" />
           <h1 className="text-5xl font-bold">Bookmarks</h1>
         </div>
-        {data?.length > 0 ? (
+        {data?.length > 0 && (
           <div className="flex items-center gap-2.5">
             <button className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg cursor-pointer text-white transition-all ease duration-200 text-sm font-semibold bg-black hover:bg-linear-to-t hover:from-neutral-900 hover:to-neutral-800">
               <Download size={18} /> Download All
@@ -104,8 +105,6 @@ const Bookmarks = () => {
               )}
             </button>
           </div>
-        ) : (
-          ""
         )}
       </div>
 
@@ -117,31 +116,36 @@ const Bookmarks = () => {
         ""
       )}
       <div
-        className={`w-full ${data.length > 0 ? "columns-3 gap-7" : "h-100 flex items-center justify-center"}`}
+        className={`w-full ${data.length > 0 ? "columns-3 gap-7" : "h-100 flex items-center justify-center gap-7"}`}
       >
         {data?.length > 0 ? (
           <div>
-            {isLoading && <ImageCardSkeleton />}
             {Array.isArray(data) &&
               data.map((value) => (
                 <ImageCard key={value._id} value={value} isBookmarked={true} />
               ))}
           </div>
         ) : (
-          <div className="flex items-center justify-center flex-col">
-            <GoBookmarkSlash className="text-[130px] my-5 text-neutral-500" />
-            <h1 className="font-semibold text-xl">
-              Bookmark images to view later
-            </h1>
-            <span className="flex items-center gap-1 mt-3">
-              Click{" "}
-              <span className="bg-neutral-100 border border-neutral-500 rounded p-0.5">
-                {" "}
-                <Bookmark size={18} />{" "}
-              </span>{" "}
-              on any photo or illustration.
-            </span>
-          </div>
+          <>
+            {isLoading ? (
+              [1, 2, 3].map((index) => <BookmarkCardSkeleton key={index} />)
+            ) : (
+              <div className="flex items-center justify-center flex-col">
+                <GoBookmarkSlash className="text-[130px] my-5 text-neutral-500" />
+                <h1 className="font-semibold text-xl">
+                  Bookmark images to view later
+                </h1>
+                <span className="flex items-center gap-1 mt-3">
+                  Click{" "}
+                  <span className="bg-neutral-100 border border-neutral-500 rounded p-0.5">
+                    {" "}
+                    <Bookmark size={18} />{" "}
+                  </span>{" "}
+                  on any photo or illustration.
+                </span>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
