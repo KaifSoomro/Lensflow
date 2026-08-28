@@ -2,19 +2,14 @@ import React from "react";
 import ContributeCardButton from "../components/common/ContributeCardButton";
 import { useSelector } from "react-redux";
 import ImageCard from "../components/common/ImageCard.jsx";
-import Image from "../assets/images/mock_1.jpg";
-import ImageTwo from "../assets/images/mock_2.jpg";
-import ImageThree from "../assets/images/mock_3.jpg";
 import { useQuery } from "@tanstack/react-query";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
 import fetchBookmarkIds from "../utils/getBookmarks.js";
 import fetchCollectionPhotoIds from "../utils/getCollectionPhotoIds.js";
 import CollectionBox from "../components/common/CollectionBox.jsx";
-import { setShowDialog } from "../features/collectionSlice.js";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
-  const token = localStorage.getItem("token");
   const { showDialog } = useSelector((state) => state.collection);
 
   const { data, isLoading } = useQuery({

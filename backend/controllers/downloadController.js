@@ -1,5 +1,4 @@
 import Photo from "../models/photoModel.js";
-import User from "../models/userModel.js";
 import Downloads from "../models/downloadHistoryModel.js";
 
 export const downloadPhoto = async (req, res) => {
@@ -23,13 +22,18 @@ export const downloadPhoto = async (req, res) => {
       image = photo.previewImage;
     }
 
-    const existingDownloadUser = await Downloads.findOne({ user: req.user._id });
+    const existingDownloadUser = await Downloads.findOne({
+      user: req.user._id,
+    });
 
     if (!existingDownloadUser) {
       await Downloads.create({
         user: req.user._id,
         downloadedPhotos: [photoId],
       });
+
+      photo.downloads += 1;
+      await photo.save();
 
       return res.status(201).json({
         success: true,
@@ -40,9 +44,45 @@ export const downloadPhoto = async (req, res) => {
     existingDownloadUser.downloadedPhotos.push(photoId);
     await existingDownloadUser.save();
 
+    photo.downloads += 1;
+    await photo.save();
+
     return res.status(200).json({
       success: true,
       photo_url: image,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getDownloadHistory = async (req, res) => {
+  try {
+    const downloadHistory = await Downloads.find({
+      user: req.user._id,
+    })
+      .populate({
+        path: "user",
+        select: "-password",
+      })
+      .populate({
+        path: "downloadedPhotos",
+        select: "-user",
+      });
+
+    if (!downloadHistory) {
+      return res.status(404).json({
+        success: false,
+        message: "No download history found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      downloadHistory,
     });
   } catch (error) {
     return res.status(500).json({
