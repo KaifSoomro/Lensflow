@@ -66,7 +66,7 @@ const ProfileIllustrationsPage = () => {
         </div>
       ) : (
         <div className="w-full min-h-[30vh] flex items-center justify-center">
-          <img src={LaptopImage} alt="laptop-img" className="w-80" />
+          <img src={LaptopImage} alt="laptop-img" className="w-79.5" />
         </div>
       )}
     </div>
