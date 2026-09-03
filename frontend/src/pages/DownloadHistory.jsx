@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import DownloadHistoryCard from "../components/common/DownloadHistoryCard";
 import useFormatDate from "../utils/useFormatDate.js";
 import DownloadHistoryCardSkeleton from "../components/common/DownloadHistoryCardSkeleton.jsx";
+import LaptopImage from "../assets/images/laptop.png";
 
 const DownloadHistory = () => {
   const token = localStorage.getItem("token");
@@ -35,7 +36,6 @@ const DownloadHistory = () => {
     },
   });
 
-  console.log(data);
   return (
     <div className="max-w-7xl mx-auto">
       <div className="w-155 mt-10">
@@ -50,19 +50,28 @@ const DownloadHistory = () => {
         <div className="h-6 w-55 bg-neutral-200 animate-pulse rounded mt-15 mb-5" />
       ) : (
         <h1 className="mt-15 font-semibold text-lg mb-5">
-          Created at {formatDate(data?.createdAt)}
+          {data?.createdAt && "Created at " + formatDate(data?.createdAt)}
         </h1>
       )}
-      <div className="w-full grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-15 gap-y-18 mb-30">
-        {isLoading ? (
-          <>
-            <DownloadHistoryCardSkeleton />
-          </>
-        ) : (
+      <div
+        className={`w-full mb-30 ${data?.downloadedPhotos.length > 0 ? "grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-15 gap-y-18" : "flex items-center justify-center"}`}
+      >
+        {data?.downloadedPhotos.length > 0 ? (
           Array.isArray(data?.downloadedPhotos) &&
           data?.downloadedPhotos.map((value, index) => (
             <DownloadHistoryCard key={index} value={value} user={data?.user} />
           ))
+        ) : (
+          <>
+            {isLoading ? (
+              <DownloadHistoryCardSkeleton />
+            ) : (
+              <div className="w-full flex items-center justify-center flex-col">
+                <img src={LaptopImage} alt="laptop_img" className="w-90"/>
+                <h1>No download history found.</h1>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

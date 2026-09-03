@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import ImageCard from "../components/common/ImageCard.jsx";
 import fetchBookmarkIds from "../utils/getBookmarks.js";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton.jsx";
