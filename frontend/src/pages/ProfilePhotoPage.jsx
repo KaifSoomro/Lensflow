@@ -11,7 +11,7 @@ const ProfilePhotoPage = () => {
   const { userId } = useParams();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["dynamic-profile-content", photoType],
+    queryKey: ["dynamic-profile-content", userId],
     queryFn: async () => {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/user/profile/content/${photoType}/${userId}`,

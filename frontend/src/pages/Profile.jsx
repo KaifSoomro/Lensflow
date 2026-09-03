@@ -37,7 +37,7 @@ const Profile = () => {
   });
 
   const { data: photos } = useQuery({
-    queryKey: ["photos"],
+    queryKey: ["photos", userId],
     queryFn: async () => {
       try {
         const res = await fetch(
