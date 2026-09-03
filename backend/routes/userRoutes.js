@@ -9,7 +9,7 @@ import protectRoute from "../middlewares/protectRoute.js";
 const router = express.Router();
 
 router.get("/profile/:userId", protectRoute, getProfile);
-router.get("/profile/content/:photoType", protectRoute, getProfileContent);
-router.get("/profile/photos/counts", protectRoute, getProfilePhotoCounts);
+router.get("/profile/content/:photoType/:userId", protectRoute, getProfileContent);
+router.get("/profile/photos/counts/:userId", protectRoute, getProfilePhotoCounts);
 
 export default router;

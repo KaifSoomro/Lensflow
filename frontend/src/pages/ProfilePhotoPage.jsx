@@ -3,16 +3,18 @@ import ImageCard from "../components/common/ImageCard";
 import fetchBookmarkIds from "../utils/getBookmarks";
 import ImageCardSkeleton from "../components/common/ImageCardSkeleton";
 import LaptopImage from "../assets/images/laptop.png";
+import { useParams } from "react-router-dom";
 
 const ProfilePhotoPage = () => {
   const photoType = "photo";
   const token = localStorage.getItem("token");
+  const { userId } = useParams();
 
   const { data, isLoading } = useQuery({
     queryKey: ["dynamic-profile-content", photoType],
     queryFn: async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/user/profile/content/${photoType}`,
+        `${import.meta.env.VITE_BACKEND_URL}/user/profile/content/${photoType}/${userId}`,
         {
           method: "GET",
           headers: {

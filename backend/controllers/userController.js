@@ -30,9 +30,9 @@ export const getProfile = async (req, res) => {
 
 export const getProfileContent = async (req, res) => {
   try {
-    const { photoType } = req.params;
+    const { photoType, userId } = req.params;
 
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -40,7 +40,7 @@ export const getProfileContent = async (req, res) => {
       });
     }
 
-    const content = await Photo.find({ user: user._id }).populate(
+    const content = await Photo.find({ user: userId }).populate(
       "user",
       "-password",
     );
@@ -75,8 +75,9 @@ export const getProfileContent = async (req, res) => {
 
 export const getProfilePhotoCounts = async (req, res) => {
   try {
-    const photos = await Photo.find({ user: req.user._id });
-    const collection = await Collection.findOne({ user: req.user._id });
+    const { userId } = req.params;
+    const photos = await Photo.find({ user: userId });
+    const collection = await Collection.findOne({ user: userId });
 
     if (!photos) {
       return res.status(404).json({
@@ -92,7 +93,7 @@ export const getProfilePhotoCounts = async (req, res) => {
       success: true,
       photos: realPhotos.length,
       illustrations: illustration.length,
-      collections: collection.photos.length
+      collections: collection.photos.length,
     });
   } catch (error) {
     return res.status(500).json({
@@ -102,5 +103,3 @@ export const getProfilePhotoCounts = async (req, res) => {
     });
   }
 };
-
-

@@ -1,18 +1,17 @@
 import React from "react";
 import ProfileInfo from "../components/profile/ProfileInfo";
 import { useQuery } from "@tanstack/react-query";
-import { useDispatch, useSelector } from "react-redux";
 import ProfileInfoSkeleton from "../components/profile/ProfileInfoSkeleton";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.user);
-  const userId = user?._id;
+
+  const { userId } = useParams();
 
   const token = localStorage.getItem("token");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["profileData"],
+    queryKey: ["profileData", userId],
     queryFn: async () => {
       try {
         const res = await fetch(
@@ -42,7 +41,7 @@ const Profile = () => {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user/profile/photos/counts`,
+          `${import.meta.env.VITE_BACKEND_URL}/user/profile/photos/counts/${userId}`,
           {
             method: "GET",
             headers: {
@@ -63,6 +62,8 @@ const Profile = () => {
       }
     },
   });
+
+  console.log("Photos: ", photos)
 
   return (
     <div>
