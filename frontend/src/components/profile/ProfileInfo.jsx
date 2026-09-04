@@ -5,18 +5,20 @@ import {
   Earth,
   Folders,
   ImageIcon,
-  LocateIcon,
-  Map,
   MapPin,
   Pencil,
   PenTool,
   XCircle,
 } from "lucide-react";
 import { FaCheckCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const ProfileInfo = ({ data, photos }) => {
   const firstName = data?.fullName.split(" ")[0];
+  const { user } = useSelector((state) => state.user);
   const location = useLocation();
+  const isMine = data?._id.toString() === user._id.toString();
+
   return (
     <>
       <div className="w-full h-60 pt-10 flex items-start justify-center">
@@ -33,12 +35,14 @@ const ProfileInfo = ({ data, photos }) => {
               <h1 className="font-bold text-4xl text-neutral-900">
                 {data?.fullName}
               </h1>
-              <Link
-                to="/account"
-                className={`cursor-pointer capitalize mx-2 font-semibold text-sm text-neutral-500 hover:text-neutral-900 py-1.5 px-4 rounded-lg transition-all ease duration-200 border border-neutral-300 shadow hover:border-neutral-900 flex items-center gap-2`}
-              >
-                <Pencil size={16} /> Edit profile
-              </Link>
+              {isMine && (
+                <Link
+                  to="/account"
+                  className={`cursor-pointer capitalize mx-2 font-semibold text-sm text-neutral-500 hover:text-neutral-900 py-1.5 px-4 rounded-lg transition-all ease duration-200 border border-neutral-300 shadow hover:border-neutral-900 flex items-center gap-2`}
+                >
+                  <Pencil size={16} /> Edit profile
+                </Link>
+              )}
             </div>
             {data?.bio ? (
               <p className="mt-5">{data?.bio}</p>
@@ -53,26 +57,28 @@ const ProfileInfo = ({ data, photos }) => {
               <p className="mt-5 text-blue-600 flex items-center gap-2">
                 <FaCheckCircle size={16} className="fill-current" /> Available
                 for hire{" "}
-                <Link
-                  to="/settings#hiring"
-                  className="underline text-sm text-neutral-500"
-                >
-                  Update
-                </Link>
+                {isMine && (
+                  <Link
+                    to="/settings#hiring"
+                    className="underline text-sm text-neutral-500"
+                  >
+                    Update
+                  </Link>
+                )}
               </p>
             ) : (
               <p className="mt-5 text-neutral-500 flex items-center gap-2">
                 <XCircle size={16} /> Not available for hire{" "}
-                <Link to="/settings#hiring" className="underline text-sm">
-                  Update
-                </Link>
+                {isMine && (
+                  <Link to="/settings#hiring" className="underline text-sm">
+                    Update
+                  </Link>
+                )}
               </p>
             )}
 
             {data?.location && (
-              <p
-                className="mt-2 text-neutral-500 flex items-center gap-2 hover:text-neutral-700 transition-all ease capitalize cursor-pointer"
-              >
+              <p className="mt-2 text-neutral-500 flex items-center gap-2 hover:text-neutral-700 transition-all ease capitalize cursor-pointer">
                 <MapPin size={16} /> {data?.location}
               </p>
             )}
