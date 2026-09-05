@@ -313,7 +313,7 @@ const EditAccountDetails = () => {
 
           <button
             type="submit"
-            className="mt-20 w-full px-2 py-3 rounded-lg cursor-pointer text-white transition-all ease duration-200 font-semibold bg-linear-to-t from-neutral-900 to-neutral-800 hover:from-neutral-900 hover:to-neutral-700"
+            className="mt-20 w-full px-2 py-3 rounded-lg cursor-pointer text-white transition-all ease duration-200 bg-linear-to-t from-neutral-900 to-neutral-800 hover:from-neutral-900 hover:to-neutral-700"
           >
             { isPending ? "Updating..." : "Update account" }
           </button>

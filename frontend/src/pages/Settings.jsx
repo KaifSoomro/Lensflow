@@ -50,7 +50,7 @@ const Settings = () => {
           </main>
         </div>
       </div>
-      <div className="mt-60">
+      <div className="mt-20">
         <Footer />
       </div>
     </>

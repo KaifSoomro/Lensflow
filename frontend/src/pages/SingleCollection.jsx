@@ -267,7 +267,7 @@ const SingleCollection = () => {
             <Link to={`/profile/${collection?.user?._id}`}>
               <div className="flex items-center gap-2 mt-5">
                 <img
-                  src={collection?.user?.profileImage || ProfileImage}
+                  src={collection?.user?.profileImage?.url || ProfileImage}
                   alt="profile-image"
                   className="w-8 rounded-full"
                 />
