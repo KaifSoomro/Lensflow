@@ -25,9 +25,9 @@ const ProfileInfo = ({ data, photos }) => {
         <div className="flex items-start justify-center gap-15">
           <div>
             <img
-              src={data?.profileImage || Image}
+              src={data?.profileImage?.url || Image}
               alt="profile-img"
-              className="w-40 rounded-full"
+              className="w-40 h-40 rounded-full object-cover"
             />
           </div>
           <div>
@@ -59,7 +59,7 @@ const ProfileInfo = ({ data, photos }) => {
                 for hire{" "}
                 {isMine && (
                   <Link
-                    to="/settings#hiring"
+                    to="/account"
                     className="underline text-sm text-neutral-500"
                   >
                     Update
@@ -70,7 +70,7 @@ const ProfileInfo = ({ data, photos }) => {
               <p className="mt-5 text-neutral-500 flex items-center gap-2">
                 <XCircle size={16} /> Not available for hire{" "}
                 {isMine && (
-                  <Link to="/settings#hiring" className="underline text-sm">
+                  <Link to="/account" className="underline text-sm">
                     Update
                   </Link>
                 )}
@@ -86,6 +86,7 @@ const ProfileInfo = ({ data, photos }) => {
             {data?.website && (
               <Link
                 to={data?.website}
+                target="_blank"
                 className="mt-2 text-neutral-500 flex items-center gap-2 hover:text-neutral-700 transition-all ease"
               >
                 <Earth size={16} /> {data?.website}

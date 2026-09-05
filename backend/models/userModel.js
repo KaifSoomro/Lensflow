@@ -32,11 +32,17 @@ const userSchema = new mongoose.Schema(
     },
     available: {
       type: Boolean,
-      default: false
+      default: false,
     },
     profileImage: {
-      type: String,
-      default: "",
+      url: {
+        type: String,
+        default: "",
+      },
+      publicId: {
+        type: String,
+        default: "",
+      },
     },
     bio: {
       type: String,
@@ -44,10 +50,10 @@ const userSchema = new mongoose.Schema(
       maxlength: 250,
     },
     location: {
-      type: String
+      type: String,
     },
     website: {
-      type: String
+      type: String,
     },
     photos: [
       {

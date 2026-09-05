@@ -1,14 +1,15 @@
 import { Check, XIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import ProfileImage from "../assets/images/profile.webp";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const EditAccountDetails = () => {
   const { user } = useSelector((state) => state.user);
-
   const userId = user._id;
   const token = localStorage.getItem("token");
+  const queryClient = useQueryClient();
 
   const [profileImage, setProfileImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(ProfileImage);
@@ -21,7 +22,7 @@ const EditAccountDetails = () => {
     location: "",
     website: "",
     bio: "",
-    hiring: false,
+    available: false,
   });
 
   const fileInputRef = useRef(null);
@@ -58,11 +59,11 @@ const EditAccountDetails = () => {
         location: data.location || "",
         website: data.website || "",
         bio: data.bio || "",
-        hiring: data.available || false,
+        available: data.available || false,
       });
 
       if (data.profileImage) {
-        setImagePreview(data.profileImage);
+        setImagePreview(data.profileImage.url);
       }
     }
   }, [data]);
@@ -99,6 +100,40 @@ const EditAccountDetails = () => {
     fileInputRef.current.click();
   };
 
+  const { mutate: updateProfile, isPending } = useMutation({
+    mutationFn: async (submitData) => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/profile/update`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(submitData),
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Something went wrong.");
+        }
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({
+        queryKey: ["profileData", userId]
+      })
+    },
+  });
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -109,6 +144,8 @@ const EditAccountDetails = () => {
 
     console.log("Submit Data:", submitData);
     console.log("Profile Image:", profileImage);
+
+    updateProfile(submitData);
   };
 
   if (isLoading) {
@@ -265,8 +302,8 @@ const EditAccountDetails = () => {
             <div className="w-full h-10 bg-neutral-100 flex items-center gap-2.5 px-3 py-6 rounded-md mt-3">
               <input
                 type="checkbox"
-                name="hiring"
-                checked={formData.hiring}
+                name="available"
+                checked={formData.available}
                 onChange={handleChange}
               />
 
@@ -278,7 +315,7 @@ const EditAccountDetails = () => {
             type="submit"
             className="mt-20 w-full px-2 py-3 rounded-lg cursor-pointer text-white transition-all ease duration-200 font-semibold bg-linear-to-t from-neutral-900 to-neutral-800 hover:from-neutral-900 hover:to-neutral-700"
           >
-            Update account
+            { isPending ? "Updating..." : "Update account" }
           </button>
         </div>
       </form>

@@ -15,13 +15,14 @@ import ProfileImage from "../../assets/images/profile.webp";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../features/userSlice.js";
 import { toast } from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
   const { user } = useSelector((state) => state.user);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const userId = user?._id;
 
@@ -45,6 +46,32 @@ const Sidebar = () => {
 
     toast.success("Logout successful.");
   };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["profileData", userId],
+    queryFn: async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/user/profile/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Something went wrong");
+        }
+
+        return data?.user;
+      } catch (error) {
+        throw error;
+      }
+    },
+  });
 
   return (
     <div className="relative w-16 h-full border-r border-neutral-400/40 flex items-center flex-col pt-4">
@@ -123,11 +150,15 @@ const Sidebar = () => {
           onClick={() => setProfileOpen((prev) => !prev)}
           className={`${profileOpen ? "p-2 bg-neutral-200/80 rounded-lg text-black" : "text-neutral-500/80 hover:bg-neutral-400/15 rounded-lg p-2 transition-all duration-200"}`}
         >
-          <img
-            src={user?.profileImage || ProfileImage}
-            alt="profile"
-            className="w-8 rounded-full"
-          />
+          {isLoading ? (
+            <div className="w-8 h-8 rounded-full bg-neutral-300 animate-pulse"></div>
+          ) : (
+            <img
+              src={data?.profileImage?.url || ProfileImage}
+              alt="profile"
+              className="w-8 h-8 rounded-full object-cover"
+            />
+          )}
         </button>
 
         {profileOpen && (
@@ -139,13 +170,13 @@ const Sidebar = () => {
               >
                 <div className="p-1">
                   <img
-                    src={user?.profileImage || ProfileImage}
+                    src={data?.profileImage?.url || ProfileImage}
                     alt="profile"
-                    className="w-8 rounded-full"
+                    className="w-8 h-8 rounded-full object-cover"
                   />
                 </div>
 
-                <h1 className="font-semibold mt-1">{user?.fullName}</h1>
+                <h1 className="font-semibold mt-1">{data?.fullName}</h1>
                 <h3 className="text-xs text-neutral-600">View profile</h3>
               </NavLink>
             )}

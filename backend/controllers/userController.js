@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import Photo from "../models/photoModel.js";
 import Collection from "../models/collectionModel.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const getProfile = async (req, res) => {
   try {
@@ -100,6 +101,63 @@ export const getProfilePhotoCounts = async (req, res) => {
       success: false,
       error: error.message,
       message: "Internal server error in getProfilePhotoCounts.",
+    });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullName, email, userName, location, website, bio, available } =
+      req.body;
+    let { profileImage } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (profileImage) {
+      if (user.profileImage?.publicId) {
+        await cloudinary.uploader.destroy(user.profileImage.publicId);
+      }
+
+      const uploadResponse = await cloudinary.uploader.upload(profileImage, {
+        folder: "lensflow/profile-images",
+        resource_type: "image",
+      });
+
+      user.profileImage = {
+        url: uploadResponse.secure_url,
+        publicId: uploadResponse.public_id,
+      };
+    }
+
+    user.fullName = fullName || user.fullName;
+    user.email = email || user.email;
+    user.userName = userName || user.userName;
+    user.location = location || user.location;
+    user.website = website || user.website;
+    user.bio = bio || user.bio;
+    if (available) {
+      user.available = available;
+    } else {
+      user.available = false;
+    }
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
     });
   }
 };

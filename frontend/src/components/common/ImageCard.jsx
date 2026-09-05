@@ -199,7 +199,7 @@ const ImageCard = ({ value, isBookmarked, isCollection }) => {
         <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img
-              src={value?.user?.profileImage || userImage}
+              src={value?.user?.profileImage?.url || userImage}
               alt={value?.user?.fullName}
               className="w-10 h-10 rounded-full object-cover"
             />

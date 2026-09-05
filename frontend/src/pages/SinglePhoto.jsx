@@ -109,7 +109,7 @@ const SinglePhoto = () => {
               className="flex items-center gap-3"
             >
               <img
-                src={data?.user?.profileImage || Image}
+                src={data?.user?.profileImage?.url || Image}
                 alt="profile-photo"
                 className="w-10 rounded-full"
               />
