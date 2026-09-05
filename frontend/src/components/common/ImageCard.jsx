@@ -121,12 +121,15 @@ const ImageCard = ({ value, isBookmarked, isCollection }) => {
 
         return data;
       } catch (error) {
-        throw new error();
+        throw error;
       }
     },
     onSuccess: (data) => {
       downloadFromBrowser(data);
     },
+    onError: () => {
+      toast.error("Login to download photos.");
+    }
   });
 
   const downloadFromBrowser = async (data) => {

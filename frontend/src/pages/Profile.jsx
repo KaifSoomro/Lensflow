@@ -63,8 +63,6 @@ const Profile = () => {
     },
   });
 
-  console.log("Photos: ", photos)
-
   return (
     <div>
       {isLoading ? (
