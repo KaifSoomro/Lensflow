@@ -223,13 +223,70 @@ export const login = async (req, res) => {
         fullName: user.fullName,
         userName: user.userName,
         email: user.email,
-        profileImage: user.profileImage
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Internal server error in login controller.",
+      error: error.message,
+    });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if (newPassword.toString() !== confirmPassword.toString()) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid fields or password mismatch",
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid fields or password mismatch",
+      });
+    }
+
+    if (newPassword.length < 8 || confirmPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 8 characters long.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+
+    await user.save();
+
+    return res.status(200).json({
+      success: false,
+      message: "Password changed successfully.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
       error: error.message,
     });
   }
