@@ -49,14 +49,18 @@ const ChangePassword = () => {
     },
     onError: (error) => {
       setErrorMsg(error.message);
-    }
+    },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(formData);
-    changePassword(formData)
+    changePassword(formData);
+    setFormData({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
   };
   return (
     <div className="max-w-7xl mx-auto px-20 mt-29">
@@ -110,13 +114,13 @@ const ChangePassword = () => {
           </div>
         </div>
 
-        { errorMsg && <p className="text-lg text-red-600 mt-5">{errorMsg}</p> }
+        {errorMsg && <p className="text-lg text-red-600 mt-5">{errorMsg}</p>}
 
         <button
           type="submit"
           className="mt-6 w-full px-2 py-3 rounded-lg cursor-pointer text-white transition-all ease duration-200 bg-linear-to-t from-neutral-900 to-neutral-800 hover:from-neutral-900 hover:to-neutral-700"
         >
-          { isPending ? "Loading..." : "Change password" }
+          {isPending ? "Loading..." : "Change password"}
         </button>
       </form>
     </div>

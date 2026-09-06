@@ -3,6 +3,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import transporter from "../config/VerifyEmail.js";
 import validator from "validator";
+import Photo from "../models/photoModel.js";
+import Collection from "../models/collectionModel.js";
+import Downloads from "../models/downloadHistoryModel.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const signup = async (req, res) => {
   try {
@@ -283,6 +287,78 @@ export const changePassword = async (req, res) => {
     return res.status(200).json({
       success: false,
       message: "Password changed successfully.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const deleteAccount = async (req, res) => {
+  try {
+    const { currentPassword } = req.body;
+
+    if (!currentPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a password first.",
+      });
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid password.",
+      });
+    }
+
+    const photos = await Photo.find({
+      user: user._id,
+    });
+
+    for (const photo of photos) {
+      if (photo.publicId) {
+        const result = await cloudinary.uploader.destroy(photo.publicId);
+      }
+    }
+
+    if (user.profileImage.publicId) {
+      await cloudinary.uploader.destroy(user.profileImage.publicId);
+    }
+
+    await Photo.deleteMany({
+      user: user._id,
+    });
+
+    await Collection.deleteMany({
+      user: user._id,
+    });
+
+    await Downloads.deleteOne({
+      user: user._id,
+    });
+
+    await User.findByIdAndDelete(user._id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Account deleted successfully.",
     });
   } catch (error) {
     return res.status(500).json({
