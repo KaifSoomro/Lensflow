@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "../../assets/images/image-not-found.png";
+import Image from "../../assets/images/Image-not-found.png";
 import { ImageIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
