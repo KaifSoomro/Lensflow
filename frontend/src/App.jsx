@@ -1,27 +1,41 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Layout from "./layouts/Layout";
-import Illustrations from "./pages/illustrations";
-import DownloadHistory from "./pages/DownloadHistory";
-import Bookmarks from "./pages/Bookmarks";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import VerifyPage from "./pages/VerifyPage";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import Notifications from "./pages/Notifications";
-import ProtectRoutes from "./components/common/ProtectRoutes";
-import CategoryPage from "./pages/CategoryPage";
-import SubmitPhoto from "./pages/SubmitPhoto";
-import SinglePhoto from "./pages/SinglePhoto";
-import ProfilePhotoPage from "./pages/ProfilePhotoPage";
-import ProfileIllustrationsPage from "./pages/ProfileIllustrationsPage";
-import ProfileCollectionsPage from "./pages/ProfileCollectionsPage";
-import SingleCollection from "./pages/SingleCollection";
-import EditAccountDetails from "./pages/EditAccountDetails";
-import ChangePassword from "./pages/ChangePassword";
-import CloseAccount from "./pages/CloseAccount";
+import { lazy, Suspense } from "react";
+
+const Home = lazy(() => import("./pages/Home.jsx"));
+const Layout = lazy(() => import("./layouts/Layout.jsx"));
+const Illustrations = lazy(() => import("./pages/illustrations.jsx"));
+const DownloadHistory = lazy(() => import("./pages/DownloadHistory.jsx"));
+const Bookmarks = lazy(() => import("./pages/Bookmarks.jsx"));
+const Login = lazy(() => import("./pages/Login.jsx"));
+const Signup = lazy(() => import("./pages/Signup.jsx"));
+const VerifyPage = lazy(() => import("./pages/VerifyPage.jsx"));
+const Profile = lazy(() => import("./pages/Profile.jsx"));
+const Settings = lazy(() => import("./pages/Settings.jsx"));
+const Notifications = lazy(() => import("./pages/Notifications.jsx"));
+const ProtectRoutes = lazy(() => import("./components/common/ProtectRoutes.jsx"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage.jsx"));
+const SubmitPhoto = lazy(() => import("./pages/SubmitPhoto.jsx"));
+const SinglePhoto = lazy(() => import("./pages/SinglePhoto.jsx"));
+const ProfilePhotoPage = lazy(() => import("./pages/ProfilePhotoPage.jsx"));
+const ProfileIllustrationsPage = lazy(
+  () => import("./pages/ProfileIllustrationsPage.jsx")
+);
+const ProfileCollectionsPage = lazy(
+  () => import("./pages/ProfileCollectionsPage.jsx")
+);
+const SingleCollection = lazy(
+  () => import("./pages/SingleCollection.jsx")
+);
+const EditAccountDetails = lazy(
+  () => import("./pages/EditAccountDetails.jsx")
+);
+const ChangePassword = lazy(
+  () => import("./pages/ChangePassword.jsx")
+);
+const CloseAccount = lazy(
+  () => import("./pages/CloseAccount.jsx")
+);
 
 const App = () => {
   return (
