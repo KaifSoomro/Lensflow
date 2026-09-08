@@ -18,24 +18,12 @@ const CategoryPage = lazy(() => import("./pages/CategoryPage.jsx"));
 const SubmitPhoto = lazy(() => import("./pages/SubmitPhoto.jsx"));
 const SinglePhoto = lazy(() => import("./pages/SinglePhoto.jsx"));
 const ProfilePhotoPage = lazy(() => import("./pages/ProfilePhotoPage.jsx"));
-const ProfileIllustrationsPage = lazy(
-  () => import("./pages/ProfileIllustrationsPage.jsx")
-);
-const ProfileCollectionsPage = lazy(
-  () => import("./pages/ProfileCollectionsPage.jsx")
-);
-const SingleCollection = lazy(
-  () => import("./pages/SingleCollection.jsx")
-);
-const EditAccountDetails = lazy(
-  () => import("./pages/EditAccountDetails.jsx")
-);
-const ChangePassword = lazy(
-  () => import("./pages/ChangePassword.jsx")
-);
-const CloseAccount = lazy(
-  () => import("./pages/CloseAccount.jsx")
-);
+const ProfileIllustrationsPage = lazy(() => import("./pages/ProfileIllustrationsPage.jsx"));
+const ProfileCollectionsPage = lazy(() => import("./pages/ProfileCollectionsPage.jsx"));
+const SingleCollection = lazy(() => import("./pages/SingleCollection.jsx"));
+const EditAccountDetails = lazy(() => import("./pages/EditAccountDetails.jsx"));
+const ChangePassword = lazy(() => import("./pages/ChangePassword.jsx"));
+const CloseAccount = lazy(() => import("./pages/CloseAccount.jsx"));
 
 const App = () => {
   return (
