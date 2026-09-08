@@ -4,7 +4,7 @@ import { lazy, Suspense } from "react";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
 const Layout = lazy(() => import("./layouts/Layout.jsx"));
-const Illustrations = lazy(() => import("./pages/illustrations.jsx"));
+const Illustrations = lazy(() => import("./pages/Illustrations.jsx"));
 const DownloadHistory = lazy(() => import("./pages/DownloadHistory.jsx"));
 const Bookmarks = lazy(() => import("./pages/Bookmarks.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
