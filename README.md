@@ -21,6 +21,7 @@ The project focuses on building a complete application experience rather than ju
 
 ## ✨ Features
 
+````text
 ### 🔐 Authentication & Account Management
 - User registration and login
 - JWT-based authentication
@@ -68,11 +69,13 @@ The project focuses on building a complete application experience rather than ju
 - Image-focused cards
 - Smooth interactions and modern UI components
 - Lucide icons
+````
 
 ---
 
 ## 🛠️ Tech Stack
 
+````text
 ### Frontend
 
 | Technology | Purpose |
@@ -109,6 +112,7 @@ The project focuses on building a complete application experience rather than ju
 - **Database:** MongoDB Atlas
 - **Image Storage:** Cloudinary
 - **Version Control:** Git & GitHub
+````
 
 ---
 
@@ -145,6 +149,7 @@ LensFlow follows a separated frontend/backend architecture:
 
 ## 📂 Project Structure
 
+```text
 LensFlow/
 │
 ├── frontend/
@@ -170,11 +175,11 @@ LensFlow/
 │   └── server.js
 │
 └── README.md
-
----
+```
 
 ## 🔒 Security
 
+````text
 LensFlow includes several security practices:
 
 - Password hashing with **bcrypt**
@@ -186,11 +191,13 @@ LensFlow includes several security practices:
 - Server-side validation
 - Environment variables for secrets
 - Password verification for sensitive account operations
+````
 
 ---
 
 ## ⚙️ Environment Variables
 
+````text
 PORT=5000
 
 MONGODB_URI=your_mongodb_connection_string
@@ -200,6 +207,7 @@ JWT_SECRET=your_jwt_secret
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+````
 
 ---
 
@@ -207,6 +215,7 @@ CLOUDINARY_API_SECRET=your_api_secret
 
 Building LensFlow helped me work with a complete full-stack workflow instead of treating frontend and backend as separate projects.
 
+````text
 ### Frontend
 - Building reusable React components
 - Managing global state with Redux Toolkit
@@ -233,6 +242,7 @@ Building LensFlow helped me work with a complete full-stack workflow instead of 
 - Handling cloud image storage
 - Deploying a full-stack application
 - Debugging production and deployment issues
+````
 
 ---
 
@@ -240,6 +250,7 @@ Building LensFlow helped me work with a complete full-stack workflow instead of 
 
 LensFlow is actively being improved.
 
+````text
 ### Planned / Pending Features
 
 - 📱 Better responsiveness across all screen sizes
@@ -250,6 +261,7 @@ LensFlow is actively being improved.
 - ✨ Additional UI animations and micro-interactions
 - 📸 More advanced photo discovery features
 - 🧩 Additional collection functionality
+````
 
 ---
 
@@ -257,7 +269,9 @@ LensFlow is actively being improved.
 
 The main goal of LensFlow is to build a polished photo-sharing platform while gaining practical experience with:
 
+````text
 **React → APIs → Authentication → MongoDB → Cloudinary → State Management → Deployment**
+````
 
 Rather than relying on a ready-made backend or an external photo API, the application is built around its own database and backend infrastructure.
 
