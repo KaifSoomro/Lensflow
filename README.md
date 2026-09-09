@@ -1,6 +1,11 @@
 <div align="center">
-  <img src="https://lensflow-sable.vercel.app/assets/logo_2-UbCzOxfT.png" width="150px"/>
+  <img src="https://lensflow-sable.vercel.app/assets/logo_2-UbCzOxfT.png" width="50px"/>
+
   <h1>Lensflow</h1>
+
+  <p>
+    A modern photo-sharing platform inspired by Unsplash.
+  </p>
 </div>
 <br>
 <br>
