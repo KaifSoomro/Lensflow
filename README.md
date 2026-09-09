@@ -1,5 +1,6 @@
 <div align="center">
   <img src="https://lensflow-sable.vercel.app/assets/logo_2-UbCzOxfT.png" width="180px"/>
+  <h1>Lensflow</h1>
 </div>
 <br>
 <br>
