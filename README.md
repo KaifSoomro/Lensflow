@@ -1,6 +1,8 @@
 <div align="center">
   <img src="https://lensflow-sable.vercel.app/assets/logo_2-UbCzOxfT.png" width="180px"/>
 </div>
+<br>
+<br>
 > **A modern photo-sharing platform inspired by the visual simplicity of Unsplash — built completely from scratch with the MERN stack.**
 
 LensFlow is a full-stack photo-sharing web application where users can discover, upload, manage, bookmark, and organize photographs into collections.
